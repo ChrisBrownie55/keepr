@@ -61,7 +61,7 @@ export default {
 }
 .max-height-enter-to,
 .max-height-leave {
-  max-height: 2rem;
+  max-height: 3.5rem;
 }
 
 .login {
