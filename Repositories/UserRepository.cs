@@ -20,12 +20,12 @@ namespace keepr.Repositories
       string id = Guid.NewGuid().ToString();
       string hash = BCrypt.Net.BCrypt.HashPassword(creds.Password);
       int success = _db.Execute(@"
-        INSERT INTO users (id, username, email, hash)
-        VALUES (@id, @username, @email, @hash);
+        INSERT INTO users (id, name, email, hash)
+        VALUES (@id, @name, @email, @hash);
       ", new
       {
         id,
-        username = creds.Username,
+        name = creds.Name,
         email = creds.Email,
         hash
       });
@@ -34,22 +34,25 @@ namespace keepr.Repositories
 
       return new User()
       {
-        Username = creds.Username,
+        Name = creds.Name,
         Email = creds.Email,
         Hash = null,
         Id = id
       };
     }
 
-    //LOGIN 
+    //LOGIN
     public User Login(UserLogin creds)
     {
       User user = _db.Query<User>(@"
-                SELECT * FROM users WHERE email = @Email
-                ", creds).FirstOrDefault();
-      if (user == null) { return null; }
-      bool validPass = BCrypt.Net.BCrypt.Verify(creds.Password, user.Hash);
-      if (!validPass) { return null; }
+        SELECT * FROM users WHERE email = @Email
+      ", creds).FirstOrDefault();
+
+      if (user == null || !BCrypt.Net.BCrypt.Verify(creds.Password, user.Hash))
+      {
+        return null;
+      }
+
       user.Hash = null;
       return user;
     }
@@ -57,7 +60,7 @@ namespace keepr.Repositories
     internal User GetUserById(string id)
     {
       var user = _db.Query<User>(@"
-      SELECT * FROM users WHERE id = @id
+        SELECT * FROM users WHERE id = @id
       ", new { id }).FirstOrDefault();
       if (user != null)
       {

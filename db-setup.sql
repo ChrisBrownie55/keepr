@@ -1,6 +1,6 @@
 -- CREATE TABLE users (
 --     id VARCHAR(255) NOT NULL,
---     username VARCHAR(20) NOT NULL,
+--     name VARCHAR(20) NOT NULL,
 --     email VARCHAR(255) NOT NULL,
 --     hash VARCHAR(255) NOT NULL,
 --     PRIMARY KEY (id),
@@ -15,7 +15,7 @@
 --     INDEX userId (userId),
 --     FOREIGN KEY (userId)
 --         REFERENCES users(id)
---         ON DELETE CASCADE,  
+--         ON DELETE CASCADE,
 --     PRIMARY KEY (id)
 -- );
 
@@ -24,10 +24,14 @@
 --     name VARCHAR(20) NOT NULL,
 --     description VARCHAR(255) NOT NULL,
 --     userId VARCHAR(255),
+--     img VARCHAR(255),
+--     isPrivate TINYINT,
+--     views INT DEFAULT 0,
+--     keeps INT DEFAULT 0,
 --     INDEX userId (userId),
 --     FOREIGN KEY (userId)
 --         REFERENCES users(id)
---         ON DELETE CASCADE,  
+--         ON DELETE CASCADE,
 --     PRIMARY KEY (id)
 -- );
 
@@ -52,10 +56,10 @@
 --     FOREIGN KEY (keepId)
 --         REFERENCES keeps(id)
 --         ON DELETE CASCADE
--- )
+-- );
 
 
 -- -- USE THIS LINE FOR GET KEEPS BY VAULTID
 -- SELECT * FROM vaultkeeps vk
--- INNER JOIN keeps k ON k.id = vk.keepId 
--- WHERE (vaultId = @vaultId) 
+-- INNER JOIN keeps k ON k.id = vk.keepId
+-- WHERE (vaultId = @vaultId)

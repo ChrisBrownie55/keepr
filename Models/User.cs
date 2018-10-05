@@ -18,7 +18,7 @@ namespace keepr.Models
   {
 
     [Required]
-    public string Username { get; set; }
+    public string Name { get; set; }
 
     [Required]
     [EmailAddress]
@@ -32,7 +32,7 @@ namespace keepr.Models
   {
     public string Id { get; set; }
     public bool Active { get; set; } = true;
-    public string Username { get; set; }
+    public string Name { get; set; }
     [Required]
     [EmailAddress]
     public string Email { get; set; }
