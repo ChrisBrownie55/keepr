@@ -16,7 +16,7 @@ export default {
 
 <style scoped lang='scss'>
 label {
-  display: inline-block;
+  display: contents;
   span,
   input {
     display: block;
@@ -37,6 +37,10 @@ label {
     }
 
     margin: 6px;
+  }
+  span {
+    margin-left: 6px;
+    margin-right: auto;
   }
 }
 </style>

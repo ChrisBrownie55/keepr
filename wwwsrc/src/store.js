@@ -17,9 +17,12 @@ let api = Axios.create({
   withCredentials: true
 })
 
-export default new Vuex.Store({
+const store = new Vuex.Store({
   state: {
     user: {}
+  },
+  getters: {
+    loggedIn: state => !!state.user.id
   },
   mutations: {
     setUser(state, user) {
@@ -27,35 +30,39 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    register({ commit, dispatch }, newUser) {
-      auth.post('register', newUser)
-        .then(res => {
-          commit('setUser', res.data)
-          router.push({ name: 'home' })
-        })
-        .catch(e => {
-          console.log('[registration failed] :', e)
-        })
+    error(context, error) {
+      console.log(error) // TODO: visual notification of error for user
     },
-    authenticate({ commit, dispatch }) {
-      auth.get('authenticate')
-        .then(res => {
-          commit('setUser', res.data)
-          router.push({ name: 'home' })
-        })
-        .catch(e => {
-          console.log('not authenticated')
-        })
+    async authenticate({ commit, dispatch }) {
+      try {
+        const { data: user } = auth.get('authenticate')
+        commit('setUser', user)
+        router.push(router.currentRoute.query.redirect || '/')
+      } catch (error) {
+        dispatch('error', error)
+      }
     },
-    login({ commit, dispatch }, creds) {
-      auth.post('login', creds)
-        .then(res => {
-          commit('setUser', res.data)
-          router.push({ name: 'home' })
-        })
-        .catch(e => {
-          console.log('Login Failed')
-        })
+    async register({ commit, dispatch }, creds) {
+      try {
+        const { data: user } = auth.post('register', creds)
+        commit('setUser', user)
+        router.push(router.currentRoute.query.redirect || '/')
+      } catch (error) {
+        dispatch('error', error)
+      }
+    },
+    async login({ commit, dispatch }, creds) {
+      try {
+        const { data: user } = auth.post('login', creds)
+        commit('setUser', user)
+        router.push(router.currentRoute.query.redirect || '/')
+      } catch (error) {
+        dispatch('error', error)
+      }
     }
   }
 })
+
+store.dispatch('authenticate') // try to authenticate on visit
+
+export default store
