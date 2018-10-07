@@ -1,6 +1,6 @@
 <template>
   <div class="page login">
-    <form class='login__form' @submit.prevent="loginForm ? loginUser($event) : register($event)">
+    <form class='login__form' @submit.prevent="loginForm ? loginUser($event) : registerUser($event)">
       <transition name='max-height'>
         <base-input v-if='!loginForm' type='text' v-model='creds.name' label='Name' placeholder='Chris'></base-input>
       </transition>
@@ -16,6 +16,8 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
+
 export default {
   name: 'login',
   data() {
@@ -29,15 +31,16 @@ export default {
     };
   },
   methods: {
-    register() {
-      this.$store.dispatch('register', {
+    ...mapActions('auth', ['login', 'register']),
+    registerUser() {
+      this.register({
         email: this.creds.email,
         password: this.creds.password,
         name: this.creds.name
       });
     },
     loginUser() {
-      this.$store.dispatch('login', {
+      this.login({
         email: this.creds.email,
         password: this.creds.password
       });

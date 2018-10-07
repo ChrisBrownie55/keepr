@@ -1,11 +1,10 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-// @ts-ignore
-import Home from './views/Home.vue'
-// @ts-ignore
-import Login from './views/Login.vue'
 
 import store from './store'
+
+import Login from './views/Login.vue'
+import Home from './views/Home.vue'
 
 Vue.use(Router)
 
@@ -14,7 +13,10 @@ const router = new Router({
     {
       path: '/',
       name: 'home',
-      component: Home
+      component: Home,
+      meta: {
+        requiresAuth: true
+      }
     },
     {
       path: '/login',
@@ -24,12 +26,11 @@ const router = new Router({
   ]
 })
 
-
 router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth)) {
     // this route requires auth, check if logged in
     // if not, redirect to login page.
-    if (!store.getters.loggedIn) {
+    if (!store.getters['auth/loggedIn']) {
       next({
         path: '/login',
         query: { redirect: to.fullPath }
