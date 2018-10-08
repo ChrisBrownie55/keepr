@@ -23,9 +23,11 @@ const router = new Router({
   ]
 })
 
-router.beforeEach(async (to, from, next) => {
-  if (!store.getters['auth/loggedIn'] && to.name !== 'login') {
-    await store.dispatch('auth/authenticate')
+router.beforeEach((to, from, next) => {
+  if (!store.getters['auth/loggedIn']) {
+    store.dispatch('auth/authenticate').then(() => {
+      next()
+    })
   }
   if (to.matched.some(record => record.meta.requiresAuth)) {
     // this route requires auth, check if logged in

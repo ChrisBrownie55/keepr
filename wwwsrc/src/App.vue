@@ -1,7 +1,9 @@
 <template>
   <div id="app">
     <nav id='main-nav'>
-      <icon>person</icon>
+      <base-icon v-for='(tab, index) in tabs' :key='index' :class='{ active: tab.routes.includes($router.currentRoute.name) }' @click='$router.push({ name: $store.getters["auth/loggedIn"] ? tab.routes[tab.routes.length - 1] : tab.routes[0] })'>
+        {{ tab.icon }}
+      </base-icon>
     </nav>
     <transition name='fade' mode='out-in'>
       <router-view />
@@ -9,7 +11,30 @@
   </div>
 </template>
 
+<script>
+export default {
+  data() {
+    return {
+      tabs: [
+        { routes: ['login', 'account'], icon: 'person' },
+        { routes: ['home'], icon: 'home' },
+        { routes: ['dashboard'], icon: 'dashboard' }
+      ]
+    };
+  }
+};
+</script>
+
 <style lang='scss'>
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.2s;
+}
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
+}
+
 html {
   font-size: 20px;
 }
@@ -33,8 +58,8 @@ body::-webkit-scrollbar-thumb {
 }
 
 #app {
-  min-height: calc(100vh - 3rem);
-  padding-bottom: 3rem;
+  min-height: calc(100vh - 2.5rem);
+  padding-bottom: 2.5rem;
 
   font-family: Roboto, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
     Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
@@ -42,18 +67,17 @@ body::-webkit-scrollbar-thumb {
   -moz-osx-font-smoothing: grayscale;
 
   --theme-primary: #fccf5d;
-
   --theme-secondary: #0b107b;
 }
 
 .page {
-  min-height: calc(100vh - 3rem);
+  min-height: calc(100vh - 2.5rem);
 }
 
 #main-nav {
-  width: calc(100% - 2rem);
-  height: 2.5rem;
-  padding: 0.25rem 1rem;
+  width: calc(100% - 1rem);
+  height: 2rem;
+  padding: 0rem 0.5rem 0.5rem;
 
   display: flex;
   justify-content: center;
@@ -64,28 +88,32 @@ body::-webkit-scrollbar-thumb {
   left: 0;
 
   background-color: white;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  box-shadow: 0 -3px 20px rgba(0, 0, 0, 0.19), 0 -1px 6px rgba(0, 0, 0, 0.23);
 
-  .left,
-  .right {
-    width: calc(calc(50% - 3rem) - calc(1.25rem / 2));
-    padding-left: 1.5rem;
-    padding-right: 1.5rem;
-    display: flex;
-  }
-  .left {
-    justify-content: flex-end;
-  }
-  .right {
-    justify-content: flex-start;
-  }
-  .logo {
-    fill: var(--theme-secondary);
-    background-color: var(--theme-primary);
-    border-radius: 50%;
-    width: 1.25rem;
-    height: 1.25rem;
-    padding: 0.35rem;
+  & > .icon {
+    cursor: pointer;
+    margin: 3px 0.5rem 0;
+    padding: calc(0.5rem - 3px) 0.85rem 0;
+    transition: border-top-color 0.35s;
+    position: relative;
+
+    &::after {
+      content: '';
+      position: absolute;
+      height: 3px;
+      width: 0;
+      top: -3px;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: var(--theme-primary);
+      transition: width 0.2s;
+    }
+
+    &.active {
+      &::after {
+        width: 100%;
+      }
+    }
   }
 }
 

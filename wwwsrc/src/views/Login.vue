@@ -5,16 +5,16 @@
         Welcome to <span style='font-weight: bold; color: var(--theme-primary); text-decoration: underline;'>Keepr</span>
       </h2>
       <transition name='max-height'>
-        <base-input v-if='!loginForm' type='text' v-model='creds.name' label='Name' placeholder='Chris'></base-input>
+        <base-input required v-if='!loginForm' type='text' v-model='creds.name' label='Name' placeholder='Chris'></base-input>
       </transition>
-      <base-input type='email' v-model='creds.email' label='Email' placeholder='example@example.com'></base-input>
-      <base-input type='password' v-model='creds.password' label='Password' placeholder='**********'></base-input>
+      <base-input required type='email' v-model='creds.email' label='Email' placeholder='example@example.com'></base-input>
+      <base-input required type='password' v-model='creds.password' label='Password' placeholder='**********'></base-input>
       <div class='actions'>
         <transition name='fade' mode='out-in'>
           <base-button v-if='loginForm' type="submit">Login</base-button>
           <base-button v-else type="submit">Signup</base-button>
         </transition>
-        <base-button style='border: none; box-shadow: none !important;' type='button' v-text='loginForm ? "or Signup" : "or Login"' @click='loginForm = !loginForm'></base-button>
+        <base-button style='border: none; box-shadow: none !important;' type='button' v-text='loginForm ? "or signup" : "or login"' @click='loginForm = !loginForm'></base-button>
       </div>
     </form>
   </div>
@@ -92,6 +92,8 @@ export default {
     width: calc(calc(100% - 4rem) - 2rem);
     display: flex;
     flex-direction: column;
+
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
 
     .base-input {
       margin-bottom: 0.125rem;

@@ -48,13 +48,15 @@ button {
     box-shadow: 0px 0px 0px 3px #7fc1ff;
     outline: none;
   }
-  &:active,
+  &:active {
+    background-color: rgba(#0b107b, 0.15) !important;
+  }
   &:focus {
-    background-color: rgba(#0b107b, 0.15);
+    background-color: rgba(#0b107b, 0.075);
   }
   @media (hover: hover) {
     &:hover {
-      background-color: rgba(#0b107b, 0.15);
+      background-color: rgba(#0b107b, 0.075);
     }
   }
 }
