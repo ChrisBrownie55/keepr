@@ -30,7 +30,7 @@ namespace keepr.Controllers
     {
       if (!ModelState.IsValid) { throw new Exception("Invalid Credentials"); }
       User user = _repo.Register(creds);
-      if (user == null) { throw new Exception("Invalid Credentials"); }
+      if (user == null) { throw new Exception("Invalid Credentials2"); }
       user.SetClaims();
       await HttpContext.SignInAsync(user._principal);
       return user;

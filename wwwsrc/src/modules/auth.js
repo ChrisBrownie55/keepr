@@ -1,9 +1,14 @@
 import Axios from 'axios'
 import router from '@/router'
 
-let auth = Axios.create({
+const auth = Axios.create({
   baseURL: "//localhost:5000/account/",
   timeout: 3000,
+  withCredentials: true
+})
+const authenticate = Axios.create({
+  baseURL: "//localhost:5000/account/authenticate",
+  timeout: 1000,
   withCredentials: true
 })
 
@@ -25,16 +30,16 @@ export default {
     },
     async authenticate({ commit, dispatch }) {
       try {
-        const { data: user } = auth.get('authenticate')
+        const { data: user } = await authenticate.get('')
         commit('setUser', user)
         router.push(router.currentRoute.query.redirect || '/')
       } catch (error) {
-        dispatch('error', error)
+        // dispatch('error', error)
       }
     },
     async register({ commit, dispatch }, creds) {
       try {
-        const { data: user } = auth.post('register', creds)
+        const { data: user } = await auth.post('register', creds)
         commit('setUser', user)
         // router.push(router.currentRoute.query.redirect || '/')
       } catch (error) {
@@ -43,9 +48,17 @@ export default {
     },
     async login({ commit, dispatch }, creds) {
       try {
-        const { data: user } = auth.post('login', creds)
+        const { data: user } = await auth.post('login', creds)
         commit('setUser', user)
         router.push(router.currentRoute.query.redirect || '/')
+      } catch (error) {
+        dispatch('error', error)
+      }
+    },
+    async logout({ commit, dispatch }) {
+      try {
+        await auth.delete('logout', creds)
+        router.push({ name: 'home' })
       } catch (error) {
         dispatch('error', error)
       }
