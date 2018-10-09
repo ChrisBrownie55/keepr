@@ -23,11 +23,31 @@ namespace keepr.Controllers
     [HttpGet("byId")]
     public Keep GetById(int id) => _repo.GetById(id);
 
+    [HttpGet("byUserId")]
+    public IEnumerable<Keep> GetByUserId(string userId) => _repo.GetByUserId(userId);
+
+    [HttpGet("searchByName")]
+    public IEnumerable<Keep> SearchByName(string name) => _repo.SearchByName(name);
+
     [HttpPost]
     [Authorize]
-    public Keep Post([FromBody] Keep keep) =>
+    public Keep Create([FromBody] Keep keep) =>
       !ModelState.IsValid
         ? throw new Exception("Invalid Keep")
         : _repo.Create(keep);
+
+    [HttpPut]
+    [Authorize]
+    public Keep Update([FromBody] Keep keep) =>
+      !ModelState.IsValid
+        ? throw new Exception("Invalid Keep")
+        : _repo.Update(keep);
+
+    [HttpDelete("byId")]
+    [Authorize]
+    public bool Delete([FromBody] int id) =>
+      !ModelState.IsValid
+        ? throw new Exception("Invalid id")
+        : _repo.DeleteById(id);
   }
 }

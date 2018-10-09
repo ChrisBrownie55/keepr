@@ -21,42 +21,83 @@ export default {
 
 <style scoped lang='scss'>
 .card {
-  width: 15rem;
+  border-radius: 8px;
+  position: relative;
 
-  border-radius: 4px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  transition: box-shadow 0.2s;
+
+  @media (hover: hover) {
+    &:hover {
+      .image {
+        filter: brightness(50%);
+      }
+      .content {
+        opacity: 1 !important;
+      }
+    }
+  }
+  @media (hover: none) {
+    .image {
+      filter: brightness(50%);
+    }
+    .content {
+      opacity: 1 !important;
+    }
+  }
+  &:active {
+    .image {
+      filter: brightness(50%);
+    }
+    .content {
+      opacity: 1 !important;
+    }
+  }
 
   & > *:empty {
     display: none !important;
   }
 
   .image {
+    display: flex;
     width: 100%;
-    height: 15rem;
+    transition: filter 0.2s;
 
     img[src] {
+      border-radius: 8px;
       width: 100%;
       height: 100%;
       object-fit: cover;
     }
   }
 
-  .content {
+  .image:not(:empty) + .content:not(:empty) {
+    pointer-events: none;
     display: flex;
     flex-direction: column;
 
-    width: 100%;
-    padding: 0.25rem;
+    width: calc(100% - 1.5rem);
+    padding: 0.75rem;
 
-    & > :global(.title) {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+
+    opacity: 0;
+    transition: opacity 0.2s;
+    background: none;
+
+    & > .title {
+      width: fit-content;
       font-weight: bold;
-      color: #222;
       text-transform: capitalize;
+      margin-bottom: 0.15rem;
+      color: white;
     }
 
-    & > :global(.paragraph) {
+    & > .paragraph {
+      font-size: 0.8rem;
       font-weight: normal;
-      color: #444;
+      color: #f0f0f0;
     }
   }
 

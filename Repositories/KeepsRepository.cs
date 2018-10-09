@@ -18,7 +18,7 @@ namespace keepr.Repositories
 
     public IEnumerable<Keep> GetRandom()
     {
-      return _db.Query<Keep>("SELECT * FROM keeps; ORDER BY uuid()");
+      return _db.Query<Keep>("SELECT * FROM keeps WHERE isPrivate = FALSE ORDER BY RAND();");
     }
 
     public IEnumerable<Keep> GetByUserId(string userId)
@@ -29,6 +29,11 @@ namespace keepr.Repositories
     public Keep GetById(int keepId)
     {
       return _db.Query<Keep>("SELECT * FROM keeps WHERE id = @id", new { id = keepId }).FirstOrDefault();
+    }
+
+    public IEnumerable<Keep> SearchByName(string name)
+    {
+      return _db.Query<Keep>("SELECT * FROM keeps WHERE name LIKE '%@name%';", new { name = name });
     }
 
     public Keep Create(Keep keep)
@@ -65,7 +70,8 @@ namespace keepr.Repositories
       }
     }
 
-    public Keep UpdateById(Keep keep)
+    // TODO: Make all methods below require a matching UserId to modify.
+    public Keep Update(Keep keep)
     {
       try
       {

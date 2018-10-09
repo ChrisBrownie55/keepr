@@ -35,6 +35,12 @@ requireComponent.keys().forEach(fileName => {
   )
 })
 
+Vue.filter('truncate', (value, length) =>
+  value.length > length
+    ? value.slice(0, length).trim() + '...'
+    : value
+)
+
 new Vue({
   router,
   store,

@@ -6,17 +6,27 @@
 </template>
 
 <script>
+import { debounce } from 'debounce';
+
 export default {
   name: 'base-input',
   inheritAttrs: false,
   props: {
     label: String,
-    value: [String, Number]
+    value: [String, Number],
+    debounce: {
+      type: Number,
+      default: 0
+    }
   },
   computed: {
     listeners: function() {
       return {
-        input: event => this.$emit('input', event.target.value)
+        ...this.$listeners,
+        input: debounce(
+          event => this.$emit('input', event.target.value),
+          this.$props.debounce
+        )
       };
     }
   }
@@ -25,6 +35,7 @@ export default {
 
 <style scoped lang='scss'>
 .base-input {
+  display: inline-block;
   * {
     font-size: 1rem;
   }

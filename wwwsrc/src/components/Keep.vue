@@ -1,13 +1,13 @@
 <template>
-  <base-card v-bind='$attrs' v-on='$listeners'>
-    <img :src='data.img' slot='image' />
+  <base-card v-on='$listeners' class='keep'>
+    <img :src='img' slot='image' />
     <template slot='content'>
-      <p class='title'>{{ data.name }}</p>
-      <p class='paragraph'>{{ description }}</p>
+      <p class='title'>{{ name }}</p>
+      <p class='paragraph'>{{ description | truncate(70) }}</p>
     </template>
     <template slot='actions'>
-      <p>Views: {{ data.views }}</p>
-      <p>Shares: {{ data.shares }}</p>
+      <p>Views: {{ views }}</p>
+      <p>Shares: {{ shares }}</p>
     </template>
   </base-card>
 </template>
@@ -16,21 +16,40 @@
 export default {
   name: 'keep',
   props: {
-    data: {
-      type: Object,
+    id: {
+      type: Number,
       required: true
-    }
-  },
-  computed: {
-    description() {
-      if (this.$props.description.length > 25) {
-        return this.$props.description.slice(0, 22) + '...';
-      }
-      return this.$props.description;
+    },
+    name: {
+      type: String,
+      required: true
+    },
+    description: {
+      type: String,
+      required: true
+    },
+    userId: {
+      type: String,
+      required: true
+    },
+    img: {
+      type: String,
+      required: true
+    },
+    views: {
+      type: Number,
+      required: true
+    },
+    shares: {
+      type: Number,
+      required: true
     }
   }
 };
 </script>
 
 <style scoped lang='scss'>
+  .keep {
+    cursor: pointer;
+  }
 </style>

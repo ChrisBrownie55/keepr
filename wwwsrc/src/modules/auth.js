@@ -16,9 +16,6 @@ export default {
   state: {
     user: {}
   },
-  getters: {
-    loggedIn: state => !!state.user && !!state.user.id
-  },
   mutations: {
     setUser(state, user) {
       state.user = user
@@ -32,7 +29,6 @@ export default {
       try {
         const { data: user } = await authenticate.get('')
         commit('setUser', user)
-        router.push(router.currentRoute.query.redirect || '/')
       } catch (error) {
         // dispatch('error', error)
       }

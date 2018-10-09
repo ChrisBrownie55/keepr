@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <nav id='main-nav'>
-      <base-icon v-for='(tab, index) in tabs' :key='index' :class='{ active: tab.routes.includes($router.currentRoute.name) }' @click='$router.push({ name: $store.getters["auth/loggedIn"] ? tab.routes[tab.routes.length - 1] : tab.routes[0] })'>
+      <base-icon v-for='(tab, index) in tabs' :key='index' :class='{ active: tab.routes.includes($router.currentRoute.name) }' @click='$router.push({ name: $store.state.auth.user.id ? tab.routes[tab.routes.length - 1] : tab.routes[0] })'>
         {{ tab.icon }}
       </base-icon>
     </nav>
@@ -36,7 +36,7 @@ export default {
 }
 
 html {
-  font-size: 20px;
+  font-size: 18px;
 }
 body {
   margin: 0;
@@ -75,6 +75,8 @@ body::-webkit-scrollbar-thumb {
 }
 
 #main-nav {
+  z-index: 4;
+
   width: calc(100% - 1rem);
   height: 2rem;
   padding: 0rem 0.5rem 0.5rem;
@@ -88,7 +90,7 @@ body::-webkit-scrollbar-thumb {
   left: 0;
 
   background-color: white;
-  box-shadow: 0 -3px 20px rgba(0, 0, 0, 0.19), 0 -1px 6px rgba(0, 0, 0, 0.23);
+  box-shadow: 0 0px 3px 0 rgba(0, 0, 0, 0.15), 0 2px 3px 0 rgba(0, 0, 0, 0.25);
 
   & > .icon {
     cursor: pointer;
