@@ -1,5 +1,9 @@
 <template>
   <div class="page home">
+    <h1 class='page__title' v-if='!loading'>Home</h1>
+    <h1 class='page__title skeleton skeleton-color' v-else></h1>
+    <h5 class='page__subtitle' v-if='!loading'>Check out everyone's keeps here</h5>
+    <h5 class='page__subtitle skeleton skeleton-color' v-else></h5>
     <base-input v-show='!loading' class='search' placeholder='🔎 Search' :debounce='500' @input='search'></base-input>
     <base-input-skeleton class='search' v-if='loading'></base-input-skeleton>
     <section class='keeps'>
@@ -10,6 +14,7 @@
         <base-card-skeleton v-if='loading' v-for='n in 10' :key='n'></base-card-skeleton>
       </transition-group>
     </section>
+    <base-button title='Create keep' style='border-radius: 100%; align-items: center; padding: 0; width: 3rem; height: 3rem; line-height: 0rem; background-color: black; border: none; color: white; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23); position: fixed; bottom: 3.5rem; right: 1rem;'><i class='material-icons' style='font-size: 1.8rem;'>add</i></base-button>
   </div>
 </template>
 

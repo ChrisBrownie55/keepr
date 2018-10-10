@@ -72,9 +72,20 @@ body::-webkit-scrollbar-thumb {
   --theme-secondary: #0b107b;
 }
 
+// Page stuff
+
 .page {
   min-height: calc(100vh - 2.5rem);
+
+  &__title {
+    text-align: center;
+  }
+  &__subtitle {
+    text-align: center;
+  }
 }
+
+// Nav bar stuff
 
 #main-nav {
   z-index: 4;
@@ -140,6 +151,41 @@ ul {
 }
 
 // SKELETONS
+h1.skeleton {
+  height: 1.6rem;
+  margin-bottom: 0.3rem;
+  margin-top: 0.3rem;
+  display: block;
+}
+h5.skeleton {
+  height: 0.8rem;
+  margin-top: 0.3rem;
+  margin-bottom: 0.3rem;
+  display: block;
+}
+
+// Page skeletons
+.page {
+  &__title.skeleton,
+  &__subtitle.skeleton {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  &__title.skeleton {
+    width: 6rem;
+  }
+  &__subtitle.skeleton {
+    width: 11rem;
+  }
+}
+
+// Skeleton globals
+
+.skeleton-color {
+  $color: #e1e9f3;
+  background-color: $color;
+}
 .skeleton {
   position: relative !important;
 }

@@ -80,7 +80,6 @@ namespace keepr.Repositories
           UPDATE keeps SET (
             name,
             description,
-            userId,
             img,
             isPrivate,
             views,
@@ -88,7 +87,6 @@ namespace keepr.Repositories
           ) VALUES (
             @Name,
             @Description,
-            @UserId,
             @Img,
             @IsPrivate,
             @Views,
@@ -106,7 +104,22 @@ namespace keepr.Repositories
 
     public bool DeleteById(int id, string userId)
     {
-      return _db.Execute("DELETE FROM keeps WHERE id = @id AND isPrivate = FALSE AND userId = @userId", new { id, userId }) == 1;
+      return _db.Execute("DELETE FROM keeps WHERE id = @id AND isPrivate = FALSE AND userId = @userId;", new { id, userId }) == 1;
+    }
+
+    public bool StoreInVault(VaultKeep vaultKeep)
+    {
+      return _db.Execute(@"
+        INSERT INTO vaultkeeps (
+          vaultId,
+          keepId,
+          userId
+        ) VALUES (
+          @VaultId
+          @KeepId,
+          @UserId
+        );
+      ", vaultKeep) == 1;
     }
   }
 }

@@ -9,7 +9,8 @@ let api = Axios.create({
 export default {
   state: {
     keeps: [],
-    loading: false
+    loading: false,
+    intialLoad: true
   },
   getters: {
     filterByName: state => partialName => state.keeps.filter(keep => keep.name.indexOf(partialName) !== -1)
@@ -20,6 +21,9 @@ export default {
     },
     setLoading(state, loading) {
       state.loading = loading
+    },
+    setInitialLoad(state, loading) {
+      state.initialLoad = loading;
     }
   },
   // TODO: Make error handling notify the user
@@ -44,6 +48,7 @@ export default {
         console.log(error)
       }
       commit('setLoading', false)
+      commit('setInitialLoad', false)
     },
     async searchKeeps({ commit }, name) {
       commit('setLoading', true)
@@ -55,6 +60,7 @@ export default {
         console.log(error)
       }
       commit('setLoading', false)
+      commit('setInitialLoad', false)
     }
   }
 }

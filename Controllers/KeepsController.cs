@@ -41,6 +41,19 @@ namespace keepr.Controllers
       return _repo.Create(keep);
     }
 
+
+    [HttpPost("storeInVault")]
+    [Authorize]
+    public bool storeInVault(VaultKeep vaultKeep)
+    {
+      if (!ModelState.IsValid)
+      {
+        throw new Exception("Invalid Vault Keep relationship");
+      }
+      vaultKeep.UserId = HttpContext.User.Identity.Name;
+      return _repo.StoreInVault(vaultKeep);
+    }
+
     [HttpPut]
     [Authorize]
     public Keep Update([FromBody] Keep keep) =>

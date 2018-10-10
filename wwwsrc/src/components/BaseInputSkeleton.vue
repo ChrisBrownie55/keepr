@@ -14,5 +14,6 @@ export default {
   margin: 14px auto;
   background-color: $color;
   height: 34px;
+  border-radius: 4px;
 }
 </style>
