@@ -38,7 +38,7 @@ export default {
   }
   @media (hover: none) {
     .image {
-      filter: brightness(50%);
+      filter: brightness(70%);
     }
     .content {
       opacity: 1 !important;

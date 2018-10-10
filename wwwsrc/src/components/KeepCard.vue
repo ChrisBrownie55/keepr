@@ -3,7 +3,7 @@
     <img :src='img' slot='image' />
     <template slot='content'>
       <p class='title'>{{ name }}</p>
-      <p class='paragraph'>{{ description | truncate(70) }}</p>
+      <p class='paragraph'>{{ description | truncate(50) }}</p>
     </template>
     <template slot='actions'>
       <p>Views: {{ views }}</p>
@@ -14,7 +14,7 @@
 
 <script>
 export default {
-  name: 'keep',
+  name: 'keep-card',
   props: {
     id: {
       type: Number,
@@ -49,7 +49,7 @@ export default {
 </script>
 
 <style scoped lang='scss'>
-  .keep {
-    cursor: pointer;
-  }
+.keep {
+  cursor: pointer;
+}
 </style>

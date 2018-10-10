@@ -2,21 +2,25 @@
   <div class="page home">
     <base-input class='search' placeholder='🔎 Search' :debounce='500' @input='search'></base-input>
     <section class='keeps'>
-      <keep v-for='keep in keeps' :key='keep._id' v-bind='keep'>
-      </keep>
+      <transition-group name='fade-up'>
+        <keep-card v-if='!loading' v-for='keep in keeps' :key='keep._id' v-bind='keep'>
+        </keep-card>
+      </transition-group>
     </section>
+    <base-loader></base-loader>
   </div>
 </template>
 
 <script>
 import { mapState, mapActions } from 'vuex';
-import Keep from '@/components/Keep';
+import KeepCard from '@/components/KeepCard';
 
 export default {
   name: 'Home',
   methods: {
     ...mapActions('keeps', ['getKeeps', 'searchKeeps']),
     search(value) {
+      value = value.trim();
       if (!value) {
         this.getKeeps();
       } else {
@@ -25,7 +29,7 @@ export default {
     }
   },
   computed: {
-    ...mapState('keeps', ['keeps'])
+    ...mapState('keeps', ['keeps', 'loading'])
   },
   mounted() {
     if (!this.keeps.length) {
@@ -33,7 +37,7 @@ export default {
     }
   },
   components: {
-    Keep
+    KeepCard
   }
 };
 </script>
@@ -45,7 +49,7 @@ export default {
 
 .search {
   --width: 15rem;
-  margin: 0.5rem calc(50% - calc(var(--width) / 2);
+  margin: 0.5rem calc(50% - calc(var(--width) / 2));
   width: var(--width);
 
   @media (min-width: 382px) {

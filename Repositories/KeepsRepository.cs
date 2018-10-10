@@ -4,6 +4,7 @@ using keepr.Models;
 using Dapper;
 using System.Linq;
 using System.Data.SqlClient;
+using Microsoft.AspNetCore.Http;
 
 namespace keepr.Repositories
 {
@@ -23,17 +24,17 @@ namespace keepr.Repositories
 
     public IEnumerable<Keep> GetByUserId(string userId)
     {
-      return _db.Query<Keep>("SELECT * FROM keeps WHERE userId = @id", new { id = userId });
+      return _db.Query<Keep>("SELECT * FROM keeps WHERE userId = @userId", new { userId });
     }
 
     public Keep GetById(int keepId)
     {
-      return _db.Query<Keep>("SELECT * FROM keeps WHERE id = @id", new { id = keepId }).FirstOrDefault();
+      return _db.Query<Keep>("SELECT * FROM keeps WHERE id = @keepId", new { keepId }).FirstOrDefault();
     }
 
     public IEnumerable<Keep> SearchByName(string name)
     {
-      return _db.Query<Keep>("SELECT * FROM keeps WHERE name LIKE '%@name%';", new { name = name });
+      return _db.Query<Keep>("SELECT * FROM keeps WHERE name LIKE '%@name%';", new { name });
     }
 
     public Keep Create(Keep keep)
@@ -103,9 +104,9 @@ namespace keepr.Repositories
       }
     }
 
-    public bool DeleteById(int id)
+    public bool DeleteById(int id, string userId)
     {
-      return _db.Execute("DELETE FROM keeps WHERE id = @id AND isPrivate = FALSE") == 1;
+      return _db.Execute("DELETE FROM keeps WHERE id = @id AND isPrivate = FALSE AND userId = @userId", new { id, userId }) == 1;
     }
   }
 }

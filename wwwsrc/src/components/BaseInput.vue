@@ -1,7 +1,7 @@
 <template>
   <label class='base-input'>
     <span v-if='label'>{{ label }}</span>
-    <input v-bind='$attrs' v-on='listeners' :value='value' />
+    <input v-bind='$attrs' v-on='listeners' />
   </label>
 </template>
 
@@ -28,6 +28,15 @@ export default {
           this.$props.debounce
         )
       };
+    },
+    attrs: function() {
+      let attrs = {
+        ...this.$attrs
+      };
+      if (this.$props.value) {
+        attrs[value] = this.$props.value;
+      }
+      return attrs;
     }
   }
 };
@@ -46,7 +55,7 @@ export default {
   input {
     width: calc(100% - 28px);
     padding: 8px;
-    margin: 6px;
+    margin: 6px auto;
 
     border: solid 1px #8e8e8e;
     border-radius: 4px;

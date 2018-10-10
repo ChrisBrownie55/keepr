@@ -31,10 +31,15 @@ namespace keepr.Controllers
 
     [HttpPost]
     [Authorize]
-    public Keep Create([FromBody] Keep keep) =>
-      !ModelState.IsValid
-        ? throw new Exception("Invalid Keep")
-        : _repo.Create(keep);
+    public Keep Create([FromBody] Keep keep)
+    {
+      if (!ModelState.IsValid)
+      {
+        throw new Exception("Invalid Keep");
+      }
+      keep.UserId = HttpContext.User.Identity.Name;
+      return _repo.Create(keep);
+    }
 
     [HttpPut]
     [Authorize]
@@ -48,6 +53,6 @@ namespace keepr.Controllers
     public bool Delete([FromBody] int id) =>
       !ModelState.IsValid
         ? throw new Exception("Invalid id")
-        : _repo.DeleteById(id);
+        : _repo.DeleteById(id, HttpContext.User.Identity.Name);
   }
 }
