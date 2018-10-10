@@ -24,11 +24,22 @@ export default {
   },
   // TODO: Make error handling notify the user
   actions: {
-    async getKeeps({ commit }) {
+    loadImages(context, keeps) {
+      return Promise.all(keeps.map(keep => new Promise((resolve, reject) => {
+        const image = new Image()
+
+        image.onload = resolve
+        image.onerror = reject
+
+        image.src = keep.img
+      })))
+    },
+    async getKeeps({ commit, dispatch }) {
       commit('setLoading', true)
       try {
         const { data: keeps } = await api.get('')
         commit('setKeeps', keeps)
+        await dispatch('loadImages', keeps)
       } catch (error) {
         console.log(error)
       }
@@ -39,6 +50,7 @@ export default {
       try {
         const { data: keeps } = await api.get(`searchByName/?name=${name}`)
         commit('setKeeps', keeps)
+        await dispatch('loadIamges', keeps)
       } catch (error) {
         console.log(error)
       }

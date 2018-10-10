@@ -1,13 +1,15 @@
 <template>
   <div class="page home">
-    <base-input class='search' placeholder='🔎 Search' :debounce='500' @input='search'></base-input>
+    <base-input v-show='!loading' class='search' placeholder='🔎 Search' :debounce='500' @input='search'></base-input>
+    <base-input-skeleton class='search' v-if='loading'></base-input-skeleton>
     <section class='keeps'>
-      <transition-group name='fade-up'>
-        <keep-card v-if='!loading' v-for='keep in keeps' :key='keep._id' v-bind='keep'>
+      <transition-group name='keep-list-item'>
+        <!-- TODO: Make transitions work! -->
+        <keep-card class='keep-list-item' v-if='!loading' v-for='keep in keeps' :key='keep.id' v-bind='keep'>
         </keep-card>
+        <base-card-skeleton v-if='loading' v-for='n in 10' :key='n'></base-card-skeleton>
       </transition-group>
     </section>
-    <base-loader></base-loader>
   </div>
 </template>
 
@@ -43,6 +45,18 @@ export default {
 </script>
 
 <style lang='scss' scoped>
+.keep-list-item {
+  transition: all 1s;
+}
+.keep-list-enter,
+.keep-list-leave-to {
+  opacity: 0;
+  transform: translateY(30px);
+}
+.keep-list-leave-active {
+  position: absolute;
+}
+
 .home {
   overflow: hidden;
 }
@@ -103,9 +117,21 @@ export default {
     width: calc(75rem + 1.6rem);
   }
 
-  & > *:not(:first-child) {
+  .keep-card:not(:first-child),
+  .skeleton-card:not(:first-child) {
     margin: 0.4rem auto;
     break-inside: avoid;
+  }
+  @for $i from 0 through 9 {
+    .skeleton-card:nth-child(#{$i}) {
+      @if $i % 8 == 1 {
+        height: 200px;
+      } @else if $i % 4 == 2 {
+        height: 250px;
+      } @else {
+        height: 300px;
+      }
+    }
   }
 }
 </style>

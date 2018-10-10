@@ -62,7 +62,8 @@ export default {
     width: 100%;
     transition: filter 0.2s;
 
-    img[src] {
+    img[src],
+    .img {
       border-radius: 8px;
       width: 100%;
       height: 100%;

@@ -25,7 +25,7 @@ export default {
 };
 </script>
 
-<style lang='scss'>
+<style lang='scss' scoped>
 .fade-enter-active,
 .fade-leave-active {
   transition: opacity 0.2s;
@@ -34,7 +34,9 @@ export default {
 .fade-leave-to {
   opacity: 0;
 }
+</style>
 
+<style lang='scss'>
 html {
   font-size: 18px;
 }
@@ -135,5 +137,68 @@ ol,
 pre,
 ul {
   margin: 0;
+}
+
+// SKELETONS
+.skeleton {
+  position: relative !important;
+}
+.skeleton::before {
+  content: '';
+  width: 0%;
+  height: 100%;
+  position: absolute;
+  background-color: rgba(#3d70b2, 0.1);
+  animation: skeleton 3s infinite ease-in-out;
+}
+@keyframes skeleton {
+  0% {
+    width: 0%;
+    left: 0;
+    right: auto;
+    opacity: 0.3;
+  }
+  20% {
+    width: 100%;
+    left: 0;
+    right: auto;
+    opacity: 1;
+  }
+  28% {
+    width: 100%;
+    left: auto;
+    right: 0;
+  }
+  51% {
+    width: 0%;
+    left: auto;
+    right: 0;
+  }
+  58% {
+    width: 0%;
+    left: auto;
+    right: 0;
+  }
+  82% {
+    width: 100%;
+    left: auto;
+    right: 0;
+  }
+  83% {
+    width: 100%;
+    left: 0;
+    right: auto;
+  }
+  96% {
+    width: 0%;
+    left: 0;
+    right: auto;
+  }
+  100% {
+    width: 0%;
+    left: 0;
+    right: auto;
+    opacity: 0.3;
+  }
 }
 </style>

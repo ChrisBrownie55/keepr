@@ -1,5 +1,5 @@
 <template>
-  <label class='base-input'>
+  <label class='input'>
     <span v-if='label'>{{ label }}</span>
     <input v-bind='$attrs' v-on='listeners' />
   </label>
@@ -43,7 +43,7 @@ export default {
 </script>
 
 <style scoped lang='scss'>
-.base-input {
+.input {
   display: inline-block;
   * {
     font-size: 1rem;

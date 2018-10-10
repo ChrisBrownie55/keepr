@@ -34,7 +34,7 @@ namespace keepr.Repositories
 
     public IEnumerable<Keep> SearchByName(string name)
     {
-      return _db.Query<Keep>("SELECT * FROM keeps WHERE name LIKE '%@name%';", new { name });
+      return _db.Query<Keep>($"SELECT * FROM keeps WHERE name LIKE '%{name}%';");
     }
 
     public Keep Create(Keep keep)

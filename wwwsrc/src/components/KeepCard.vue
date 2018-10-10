@@ -1,5 +1,5 @@
 <template>
-  <base-card v-on='$listeners' class='keep'>
+  <base-card v-on='$listeners' class='keep-card'>
     <img :src='img' slot='image' />
     <template slot='content'>
       <p class='title'>{{ name }}</p>
@@ -49,7 +49,7 @@ export default {
 </script>
 
 <style scoped lang='scss'>
-.keep {
+.keep-card {
   cursor: pointer;
 }
 </style>
