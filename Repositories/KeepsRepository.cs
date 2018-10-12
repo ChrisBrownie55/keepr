@@ -80,7 +80,6 @@ namespace keepr.Repositories
       }
     }
 
-    // TODO: Make all methods below require a matching UserId to modify.
     public bool Update(Keep keep)
     {
       try
@@ -89,8 +88,7 @@ namespace keepr.Repositories
           UPDATE keeps SET
             name = @Name,
             description = @Description,
-            img = @Img,
-            isPrivate = @IsPrivate
+            img = @Img
           WHERE id = @Id;
         ", keep) == 1;
       }

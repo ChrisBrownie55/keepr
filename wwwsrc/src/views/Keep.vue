@@ -2,7 +2,7 @@
   <div class='page keep'>
     <template v-if='keep.id'>
       <img :src='keep.img' />
-      <template v-if='editing'>
+      <template v-if='!editing'>
         <p>{{ keep.name }}</p>
         <p>{{ keep.description }}</p>
       </template>
@@ -66,7 +66,7 @@ export default {
     },
     async saveEdits() {
       this.editing = false;
-      const success = await this.editKeep(this.keep);
+      const success = await this.editKeep(this.modifiedKeep);
       if (!success) {
         // TODO: Notify user edit didn't work
       }
