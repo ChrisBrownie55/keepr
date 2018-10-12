@@ -27,6 +27,7 @@ export default {
   name: 'Home',
   methods: {
     ...mapActions('keeps', ['getKeeps', 'searchKeeps']),
+    ...mapActions('vaults', ['getVaults']),
     search(value) {
       value = value.trim();
       if (!value) {
@@ -34,14 +35,26 @@ export default {
       } else {
         this.searchKeeps(value);
       }
+    },
+    init() {
+      if (!this.vaults.length) {
+        this.getVaults();
+      }
     }
   },
   computed: {
-    ...mapState('keeps', ['keeps', 'loading', 'initialLoad'])
+    ...mapState('keeps', ['keeps', 'loading', 'initialLoad']),
+    ...mapState('vaults', ['vaults'])
   },
   mounted() {
     if (!this.keeps.length) {
       this.getKeeps();
+    }
+    this.init();
+  },
+  watch: {
+    '$store.state.auth.user.id'() {
+      this.init();
     }
   },
   components: {

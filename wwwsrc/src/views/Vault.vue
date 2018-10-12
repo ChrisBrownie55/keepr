@@ -30,8 +30,10 @@ export default {
     ...mapActions('vaults', ['getVaultById', 'fetchKeepsOnVault']),
     async init() {
       this.vault = await this.getVaultById(this.$props.id);
-      vault.keeps = [];
-      vault.keeps = await this.fetchKeepsOnVault(this.$props.id);
+      if (this.vault) {
+        this.vault.keeps = [];
+        this.vault.keeps = await this.fetchKeepsOnVault(this.$props.id);
+      }
     }
   },
   watch: {

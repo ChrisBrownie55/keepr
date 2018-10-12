@@ -6,9 +6,9 @@
       <p class='paragraph'>{{ description | truncate(50) }}</p>
     </template>
     <template slot='actions'>
-      <icon-button v-if='inKeep' icon='add' @click.stop='openDialog()'></icon-button>
-      <icon-button v-else icon='remove' @click.stop=''></icon-button>
-      <icon-button v-if='user.id' icon='delete' @click.stop='deleteKeep(id)'></icon-button>
+      <icon-button title='Store in vault' v-if='!inKeep' icon='add' @click.stop='openDialog()'></icon-button>
+      <icon-button title='Remove from vault' v-else icon='remove' @click.stop=''></icon-button>
+      <icon-button title='Delete' v-if='user.id' icon='delete' @click.stop='deleteKeep(id)'></icon-button>
     </template>
     <transition name='fade'>
       <section class='dialog' ref='dialog' v-if='dialogOpen' @click.stop>
