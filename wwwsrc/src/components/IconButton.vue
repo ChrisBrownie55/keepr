@@ -26,8 +26,8 @@ export default {
   // background-color: rgba(#fccf5d, 0.5);
   background-color: var(--theme-primary);
   opacity: 0.65;
-  padding: 0;
-  color: white;
+  padding: 0.1rem;
+  color: black;
   :global(.material-icons) {
     vertical-align: top;
   }

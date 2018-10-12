@@ -57,6 +57,13 @@ namespace keepr.Controllers
       return _repo.StoreInVault(vaultKeep);
     }
 
+    [HttpDelete("removeFromVault/{keepId}")]
+    [Authorize]
+    public bool removeFromVault([FromRoute] int keepId)
+    {
+      return _repo.RemoveFromVault(keepId, HttpContext.User.Identity.Name);
+    }
+
     [HttpPut]
     [Authorize]
     public bool Update([FromBody] Keep keep) =>

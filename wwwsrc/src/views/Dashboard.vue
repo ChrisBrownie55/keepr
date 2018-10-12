@@ -49,6 +49,9 @@ export default {
       this.init();
     }
   },
+  mounted() {
+    this.init();
+  },
   components: {
     VaultCard,
     KeepCard,

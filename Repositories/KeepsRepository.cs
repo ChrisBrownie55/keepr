@@ -120,5 +120,10 @@ namespace keepr.Repositories
         );
       ", vaultKeep) == 1;
     }
+
+    public bool RemoveFromVault(int keepId, string userId)
+    {
+      return _db.Execute("DELETE * FROM vaultkeeps WHERE keepId = @keepId AND userId = @userId", new { keepId, userId }) == 1;
+    }
   }
 }

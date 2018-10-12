@@ -40,7 +40,7 @@ export default {
         console.log(error)
       }
     },
-    async getKeepsOnVault({ commit, state, rootState }, id) {
+    async fetchKeepsOnVault({ commit, state, rootState }, id) {
       if (!rootState.auth.user.id) {
         // TODO: Notify user they need to login.
         return
@@ -48,10 +48,17 @@ export default {
 
       try {
         const { data: keeps } = await api.get(`keeps/${id}`)
-        commit('setVaultKeeps', { id, keeps })
+        return keeps
       } catch (error) {
         console.log(error)
       }
+    },
+    async getKeepsOnVault({ commit, state, rootState, dispatch }, id) {
+      const keeps = await dispatch('fetchKeepsOnVault', id)
+      if (!keeps) {
+        return
+      }
+      commit('setVaultKeeps', { id, keeps })
     },
     async getVaultById({ commit, state, rootState, dispatch }, id) {
       if (!rootState.auth.user.id) {

@@ -3,6 +3,7 @@ using keepr.Models;
 using Dapper;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Linq;
 
 namespace keepr.Repositories
 {
@@ -65,7 +66,12 @@ namespace keepr.Repositories
 
     public IEnumerable<Vault> GetVaults(string userId)
     {
-      return _db.Query<Vault>("SELECT * FROM vaults WHERE userId = @userId", new { userId });
+      return _db.Query<Vault>("SELECT * FROM vaults WHERE userId = @userId;", new { userId });
+    }
+
+    public Vault GetById(int id, string userId)
+    {
+      return _db.Query<Vault>("SELECT * FROM vaults WHERE id = @id AND userId = @userId;", new { id, userId }).FirstOrDefault();
     }
 
     public IEnumerable<Keep> GetKeepsFromVault(int vaultId)

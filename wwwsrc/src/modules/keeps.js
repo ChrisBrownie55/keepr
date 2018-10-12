@@ -175,6 +175,23 @@ export default {
       } catch (error) {
         console.log(error)
       }
+    },
+    async removeKeepFromVault({ commit, rootState, dispatch }, keepId) {
+      if (!rootState.auth.user.id) {
+        // TODO: Notify user they need to login to do this
+        return
+      }
+
+      try {
+        const { data: success } = await api.delete(`removeFromVault/${keepId}`)
+        if (!success) {
+          // TODO: Notify of failure
+        } else {
+          // TODO: Notify of success
+        }
+      } catch (error) {
+        console.log(error)
+      }
     }
   }
 }

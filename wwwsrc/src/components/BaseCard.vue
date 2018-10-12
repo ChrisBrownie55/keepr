@@ -108,7 +108,8 @@ export default {
 
   .actions {
     display: flex;
-    flex-direction: row-reverse;
+    flex-direction: row;
+    justify-content: flex-end;
 
     width: calc(100% - 1.5rem);
     padding: 0.75rem;
@@ -120,6 +121,10 @@ export default {
     opacity: 0;
     transition: opacity 0.2s;
     background: none;
+
+    & > *:not(:last-child) {
+      margin-right: 0.5rem;
+    }
   }
 }
 </style>

@@ -2,8 +2,14 @@
   <div class='page keep'>
     <template v-if='keep.id'>
       <img :src='keep.img' />
-      <base-input :readonly='!editing' v-model='keep.name' :value='keep.name' />
-      <base-input :readonly='!editing' v-model='keep.description' :value='keep.description' />
+      <template v-if='editing'>
+        <p>{{ keep.name }}</p>
+        <p>{{ keep.description }}</p>
+      </template>
+      <template v-else>
+        <base-input v-model='modifiedKeep.name' :value='modifiedKeep.name' />
+        <base-input v-model='modifiedKeep.description' :value='modifiedKeep.description' />
+      </template>
       <p>Views: {{ keep.views }}</p>
       <p>Shares: {{ keep.shares }}</p>
       <base-button @click='share'>Share</base-button>
@@ -33,6 +39,7 @@ export default {
   data() {
     return {
       keep: {},
+      modifiedKeep: {},
       editing: false
     };
   },
@@ -52,6 +59,7 @@ export default {
     },
     async init() {
       this.keep = await this.getKeep(this.$props.id);
+      this.modifiedKeep = { ...this.keep };
       if (!this.keep.id) {
         this.$router.push({ name: 'home' });
       }
@@ -60,12 +68,12 @@ export default {
       this.editing = false;
       const success = await this.editKeep(this.keep);
       if (!success) {
-        this.init();
+        // TODO: Notify user edit didn't work
       }
     },
     cancelEdits() {
       this.editing = false;
-      this.init();
+      this.modifiedKeep = { ...this.keep };
     }
   },
   mounted() {

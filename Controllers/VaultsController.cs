@@ -22,6 +22,12 @@ namespace keepr.Controllers
     [HttpGet]
     public IEnumerable<Vault> Get() => _repo.GetVaults(HttpContext.User.Identity.Name);
 
+    [HttpGet("{id}")]
+    public Vault GetById([FromRoute] int id)
+    {
+      return _repo.GetById(id, HttpContext.User.Identity.Name);
+    }
+
     [HttpGet("keeps/{vaultId}")]
     public IEnumerable<Keep> GetKeeps([FromRoute] int vaultId) => _repo.GetKeepsFromVault(vaultId);
 
