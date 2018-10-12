@@ -34,7 +34,6 @@ export default {
   methods: {
     ...mapActions('keeps', ['createKeep']),
     submit() {
-      console.log(this.keep);
       this.createKeep(this.keep);
       this.$refs.form.reset();
     }

@@ -83,18 +83,45 @@ namespace keepr.Repositories
     // TODO: Make all methods below require a matching UserId to modify.
     public bool Update(Keep keep)
     {
+      System.Console.WriteLine();
+      System.Console.WriteLine();
+      System.Console.WriteLine();
+      System.Console.WriteLine();
+      System.Console.WriteLine();
+
+      System.Console.WriteLine($@"
+          UPDATE keeps SET
+            name = {keep.Name},
+            description = {keep.Description},
+            img = {keep.Img},
+            isPrivate = {keep.IsPrivate},
+            views = {keep.Views},
+            shares = {keep.Shares}
+          WHERE id = {keep.Id};
+        ");
+
+      System.Console.WriteLine();
+      System.Console.WriteLine();
+      System.Console.WriteLine();
+      System.Console.WriteLine();
+      System.Console.WriteLine();
+
       try
       {
-        return _db.Execute(@"
+        int rows = _db.Execute(@"
           UPDATE keeps SET
             name = @Name,
             description = @Description,
             img = @Img,
-            isPrivate = @IsPrivate,
-            views = @Views,
-            shares = @Shares
+            isPrivate = @IsPrivate
           WHERE id = @Id;
-        ", keep) == 1;
+        ", keep);
+
+        System.Console.WriteLine();
+        System.Console.WriteLine(rows);
+        System.Console.WriteLine();
+
+        return rows == 1;
       }
       catch (SqlException error)
       {

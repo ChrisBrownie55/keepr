@@ -75,9 +75,11 @@ export default {
     },
     async shareKeep(context, id) {
       try {
-        api.get(`share/${id}`)
+        const { data: shares } = await api.get(`share/${id}`)
+        return shares
       } catch (error) {
         console.log(error)
+        return undefined
       }
     },
     async searchKeeps({ commit, dispatch }, name) {
@@ -134,9 +136,14 @@ export default {
 
       try {
         const { data: success } = await api.put('', keep)
+        if (!success) {
+          return false
+        }
         commit('editKeep', keep)
+        return true
       } catch (error) {
         console.log(error)
+        return false
       }
     },
     async getMyKeeps({ commit, rootState }) {

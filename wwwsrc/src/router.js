@@ -8,6 +8,7 @@ import Home from './views/Home.vue'
 import Dashboard from './views/Dashboard.vue'
 import NewKeep from './views/NewKeep.vue'
 import Keep from './views/Keep.vue'
+import NewVault from './views/NewVault.vue'
 
 Vue.use(Router)
 
@@ -44,6 +45,14 @@ const router = new Router({
       name: 'keep',
       component: Keep,
       props: true
+    },
+    {
+      path: '/new-vault',
+      name: 'new-vault',
+      component: NewVault,
+      meta: {
+        requiresAuth: true
+      }
     }
   ]
 })

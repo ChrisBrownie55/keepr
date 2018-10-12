@@ -28,7 +28,7 @@ namespace keepr.Repositories
             @Description,
             @UserId
           );
-          SELECT_LAST_INSERT_ID();
+          SELECT LAST_INSERT_ID();
         ", vault);
         vault.Id = id;
         return vault;
