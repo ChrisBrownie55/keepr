@@ -8,8 +8,9 @@
       </slot>
     </section>
     <section class='actions'>
-      <slot name='action'></slot>
+      <slot name='actions'></slot>
     </section>
+    <slot></slot>
   </div>
 </template>
 
@@ -31,7 +32,8 @@ export default {
       .image {
         filter: brightness(50%);
       }
-      .content {
+      .content,
+      .actions {
         opacity: 1 !important;
       }
     }
@@ -40,7 +42,8 @@ export default {
     .image {
       filter: brightness(70%);
     }
-    .content {
+    .content,
+    .actions {
       opacity: 1 !important;
     }
   }
@@ -48,7 +51,8 @@ export default {
     .image {
       filter: brightness(50%);
     }
-    .content {
+    .content,
+    .actions {
       opacity: 1 !important;
     }
   }
@@ -104,10 +108,18 @@ export default {
 
   .actions {
     display: flex;
-    align-items: center;
+    flex-direction: row-reverse;
 
-    width: 100%;
-    padding: 0.25rem;
+    width: calc(100% - 1.5rem);
+    padding: 0.75rem;
+
+    position: absolute;
+    top: 0;
+    right: 0;
+
+    opacity: 0;
+    transition: opacity 0.2s;
+    background: none;
   }
 }
 </style>

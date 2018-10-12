@@ -25,7 +25,8 @@ export default {
 };
 </script>
 
-<style lang='scss' scoped>
+<style lang='scss'>
+// TRANSITIONS
 .fade-enter-active,
 .fade-leave-active {
   transition: opacity 0.2s;
@@ -34,9 +35,7 @@ export default {
 .fade-leave-to {
   opacity: 0;
 }
-</style>
 
-<style lang='scss'>
 html {
   font-size: 18px;
 }

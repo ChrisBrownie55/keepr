@@ -7,6 +7,7 @@ import Login from './views/Login.vue'
 import Home from './views/Home.vue'
 import Dashboard from './views/Dashboard.vue'
 import NewKeep from './views/NewKeep.vue'
+import Keep from './views/Keep.vue'
 
 Vue.use(Router)
 
@@ -37,6 +38,12 @@ const router = new Router({
       meta: {
         requiresAuth: true
       }
+    },
+    {
+      path: '/keep/:id',
+      name: 'keep',
+      component: Keep,
+      props: true
     }
   ]
 })

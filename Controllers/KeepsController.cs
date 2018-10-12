@@ -16,15 +16,18 @@ namespace keepr.Controllers
     {
       _repo = repo;
     }
+
     [HttpGet]
     public IEnumerable<Keep> Get() => _repo.GetRandom();
 
+    [HttpGet("{id}")]
+    public Keep GetById([FromRoute] int id) => _repo.GetById(id);
 
-    [HttpGet("byId")]
-    public Keep GetById(int id) => _repo.GetById(id);
+    [HttpGet("share/{id}")]
+    public Keep Share([FromRoute] int id) => _repo.Shared(id);
 
-    [HttpGet("byUserId")]
-    public IEnumerable<Keep> GetByUserId(string userId) => _repo.GetByUserId(userId);
+    [HttpGet("byUserId/{userId}")]
+    public IEnumerable<Keep> GetByUserId([FromRoute] string userId) => _repo.GetByUserId(userId);
 
     [HttpGet("searchByName")]
     public IEnumerable<Keep> SearchByName(string name) => _repo.SearchByName(name);
@@ -44,7 +47,7 @@ namespace keepr.Controllers
 
     [HttpPost("storeInVault")]
     [Authorize]
-    public bool storeInVault(VaultKeep vaultKeep)
+    public bool storeInVault([FromBody] VaultKeep vaultKeep)
     {
       if (!ModelState.IsValid)
       {

@@ -10,6 +10,7 @@ const api = Axios.create({
 export default {
   state: {
     keeps: [],
+    myKeeps: [],
     loading: false,
     intialLoad: true
   },
@@ -34,6 +35,9 @@ export default {
       keep.isPrivate = newKeep.isPrivate
       keep.views = newKeep.views
       keep.shares = newKeep.shares
+    },
+    setMyKeeps(state, keeps) {
+      state.myKeeps = keeps
     }
   },
   // TODO: Make error handling notify the user
@@ -59,6 +63,22 @@ export default {
       }
       commit('setLoading', false)
       commit('setInitialLoad', false)
+    },
+    async getKeep(context, id) {
+      try {
+        const { data: keep } = await api.get(`${id}`)
+        return keep
+      } catch (error) {
+        console.log(error)
+        return false
+      }
+    },
+    async shareKeep(context, id) {
+      try {
+        api.get(`share/${id}`)
+      } catch (error) {
+        console.log(error)
+      }
     },
     async searchKeeps({ commit, dispatch }, name) {
       commit('setLoading', true)
@@ -106,15 +126,45 @@ export default {
         console.log(error)
       }
     },
-    async editKeep({ commit, state, rootState }, keep) {
+    async editKeep({ commit, rootState }, keep) {
       if (!rootState.auth.user.id) {
         // TODO: Notify user they need to login to do this.
         return
       }
 
       try {
-        const { data: success } = await api.put('', vault)
-        commit('editKeep', vault)
+        const { data: success } = await api.put('', keep)
+        commit('editKeep', keep)
+      } catch (error) {
+        console.log(error)
+      }
+    },
+    async getMyKeeps({ commit, rootState }) {
+      if (!rootState.auth.user.id) {
+        // TODO: Notify user they need to login to do this.
+        return
+      }
+
+      try {
+        const { data: keeps } = await api.get(`byUserId/${rootState.auth.user.id}`)
+        commit('setMyKeeps', keeps)
+      } catch (error) {
+        console.log(error)
+      }
+    },
+    async addKeepToVault({ commit, rootState, dispatch }, vaultKeep) {
+      if (!rootState.auth.user.id) {
+        // TODO: Notify user they need to login to do this.
+        return
+      }
+
+      try {
+        const { data: success } = await api.post('storeInVault', vaultKeep)
+        if (!success) {
+          // TODO: Notify of failure
+        } else {
+          // TODO: Notify of success
+        }
       } catch (error) {
         console.log(error)
       }

@@ -2,14 +2,14 @@
   <div class="page home">
     <h1 class='page__title' v-if='!initialLoad'>Home</h1>
     <h1 class='page__title skeleton skeleton-color' v-else></h1>
-    <h5 class='page__subtitle' v-if='!initialLoad'>Check out everyone's keeps here</h5>
+    <h5 class='page__subtitle' v-if='!initialLoad'>Check out everyone's keeps here 👇</h5>
     <h5 class='page__subtitle skeleton skeleton-color' v-else></h5>
     <base-input v-show='!initialLoad' class='search' name='search' placeholder='🔎 Search' :debounce='500' @input='search'></base-input>
     <base-input-skeleton class='search' v-if='initialLoad'></base-input-skeleton>
     <section class='keeps'>
       <transition-group name='keep-list-item'>
         <!-- TODO: Make transitions work! -->
-        <keep-card class='keep-list-item' v-if='!initialLoad' v-for='keep in keeps' :key='keep.id' v-bind='keep'>
+        <keep-card v-for='keep in keeps' :key='keep.id' v-bind='keep' class='keep-list-item' v-if='!initialLoad'>
         </keep-card>
         <base-card-skeleton v-if='initialLoad' v-for='n in 10' :key='n'></base-card-skeleton>
       </transition-group>

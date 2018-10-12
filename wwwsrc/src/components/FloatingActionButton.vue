@@ -1,7 +1,7 @@
 <template>
   <button v-on='listeners' class='floating-action-button'>
     <slot name='prepend'></slot>
-    <i class='material-icons' v-if='icon'>{{ icon }}</i>
+    <base-icon v-if='icon'>{{ icon }}</base-icon>
     <slot></slot>
   </button>
 </template>

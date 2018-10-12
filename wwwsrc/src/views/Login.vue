@@ -14,7 +14,7 @@
           <base-button v-if='loginForm' type="submit">Login</base-button>
           <base-button v-else type="submit">Signup</base-button>
         </transition>
-        <base-button style='border: none; box-shadow: none !important;' type='button' v-text='loginForm ? "or signup" : "or login"' @click='loginForm = !loginForm'></base-button>
+        <flat-button type='button' v-text='loginForm ? "or signup" : "or login"' @click='loginForm = !loginForm'></flat-button>
       </div>
     </form>
   </div>
@@ -22,6 +22,7 @@
 
 <script>
 import { mapActions } from 'vuex';
+import FlatButton from '@/components/FlatButton.vue';
 
 export default {
   name: 'Login',
@@ -50,6 +51,9 @@ export default {
         password: this.creds.password
       });
     }
+  },
+  components: {
+    FlatButton
   }
 };
 </script>
