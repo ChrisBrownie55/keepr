@@ -33,9 +33,12 @@ namespace keepr.Repositories
       return _db.Query<Keep>("SELECT * FROM keeps WHERE id = @keepId", new { keepId }).FirstOrDefault();
     }
 
-    public bool Share(int keepId)
+    public int Share(int keepId)
     {
-      return _db.Execute("UPDATE keeps SET shares = shares + 1 WHERE id = @keepId", new { keepId }) == 1;
+      return _db.ExecuteScalar<int>(@"
+        UPDATE keeps SET shares = shares + 1 WHERE id = @keepId;
+        SELECT shares FROM keeps WHERE id = @keepId;
+      ", new { keepId });
     }
 
     public IEnumerable<Keep> SearchByName(string name)

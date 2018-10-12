@@ -24,7 +24,7 @@ namespace keepr.Controllers
     public Keep GetById([FromRoute] int id) => _repo.GetById(id);
 
     [HttpGet("share/{id}")]
-    public bool Share([FromRoute] int id) => _repo.Share(id);
+    public int Share([FromRoute] int id) => _repo.Share(id);
 
     [HttpGet("byUserId/{userId}")]
     public IEnumerable<Keep> GetByUserId([FromRoute] string userId) => _repo.GetByUserId(userId);

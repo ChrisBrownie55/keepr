@@ -42,7 +42,6 @@ export default {
   mounted() {
     if (!this.keeps.length) {
       this.getKeeps();
-      console.log('Getting keeps');
     }
   },
   components: {
