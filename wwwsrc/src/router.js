@@ -9,6 +9,7 @@ import Dashboard from './views/Dashboard.vue'
 import NewKeep from './views/NewKeep.vue'
 import Keep from './views/Keep.vue'
 import NewVault from './views/NewVault.vue'
+import Vault from './views/Vault.vue'
 
 Vue.use(Router)
 
@@ -50,6 +51,15 @@ const router = new Router({
       path: '/new-vault',
       name: 'new-vault',
       component: NewVault,
+      meta: {
+        requiresAuth: true
+      }
+    },
+    {
+      path: '/vault/:id',
+      name: 'vault',
+      component: Vault,
+      props: true,
       meta: {
         requiresAuth: true
       }

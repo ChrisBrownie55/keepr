@@ -1,4 +1,4 @@
-// import router from 'router'
+import router from '@/router'
 import Axios from 'axios'
 
 const api = Axios.create({
@@ -53,7 +53,24 @@ export default {
         console.log(error)
       }
     },
-    async createVault({ commit, state, rootState }, vault) {
+    async getVaultById({ commit, state, rootState, dispatch }, id) {
+      if (!rootState.auth.user.id) {
+        // TODO: Notify user they need to login.
+        return
+      }
+
+      try {
+        const { data: vault } = await api.get(`${id}`)
+        if (!vault) {
+          router.push({ name: 'dashboard' })
+          return
+        }
+        return vault
+      } catch (error) {
+        console.log(error)
+      }
+    },
+    async createVault({ commit, state, rootState, dispatch }, vault) {
       if (!rootState.auth.user.id) {
         // TODO: Notify user they need to login.
         return
@@ -65,7 +82,8 @@ export default {
         vault.keeps = []
         const vaults = [vault, ...state.vaults]
         commit('setVaults', vaults)
-        dispatch('getKeepsOnVault', vaults.id)
+        dispatch('getKeepsOnVault', vault.id)
+        router.push({ name: 'dashboard' })
       } catch (error) {
         console.log(error)
       }
