@@ -29,10 +29,11 @@ export default {
   methods: {
     ...mapActions('vaults', ['getVaultById', 'fetchKeepsOnVault']),
     async init() {
-      this.vault = await this.getVaultById(this.$props.id);
-      if (this.vault) {
-        this.vault.keeps = [];
-        this.vault.keeps = await this.fetchKeepsOnVault(this.$props.id);
+      const vault = await this.getVaultById(this.$props.id);
+      if (vault) {
+        const keeps = await this.fetchKeepsOnVault(this.$props.id);
+        vault.keeps = keeps;
+        this.vault = vault;
       }
     }
   },
