@@ -56,14 +56,14 @@ namespace keepr.Controllers
 
     [HttpPut]
     [Authorize]
-    public Keep Update([FromBody] Keep keep) =>
+    public bool Update([FromBody] Keep keep) =>
       !ModelState.IsValid
         ? throw new Exception("Invalid Keep")
         : _repo.Update(keep);
 
-    [HttpDelete("byId")]
+    [HttpDelete("{id}")]
     [Authorize]
-    public bool Delete([FromBody] int id) =>
+    public bool Delete([FromRoute] int id) =>
       !ModelState.IsValid
         ? throw new Exception("Invalid id")
         : _repo.DeleteById(id, HttpContext.User.Identity.Name);

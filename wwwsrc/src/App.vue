@@ -76,12 +76,30 @@ body::-webkit-scrollbar-thumb {
 
 .page {
   min-height: calc(100vh - 2.5rem);
+  display: inline-block;
+  max-width: 100%;
+  width: 100vw;
 
   &__title {
     text-align: center;
+    background-color: black;
+    font-weight: normal;
+    &:not(.skeleton) {
+      width: fit-content;
+      margin-top: 1rem;
+      margin-left: auto;
+      margin-right: auto;
+      padding: 0 1rem;
+      color: white;
+      border-radius: 4px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+    }
   }
   &__subtitle {
     text-align: center;
+    &:not(.skeleton) {
+      margin-top: 0.35rem;
+    }
   }
 }
 

@@ -72,33 +72,25 @@ namespace keepr.Repositories
     }
 
     // TODO: Make all methods below require a matching UserId to modify.
-    public Keep Update(Keep keep)
+    public bool Update(Keep keep)
     {
       try
       {
-        _db.ExecuteScalar(@"
-          UPDATE keeps SET (
-            name,
-            description,
-            img,
-            isPrivate,
-            views,
-            shares
-          ) VALUES (
-            @Name,
-            @Description,
-            @Img,
-            @IsPrivate,
-            @Views,
-            @Shares
-          ) WHERE id = @Id;
-        ", keep);
-        return keep;
+        return _db.Execute(@"
+          UPDATE keeps SET
+            name = @Name,
+            description = @Description,
+            img = @Img,
+            isPrivate = @IsPrivate,
+            views = @Views,
+            shares = @Shares
+          WHERE id = @Id;
+        ", keep) == 1;
       }
       catch (SqlException error)
       {
         System.Console.WriteLine(error.Message);
-        return null;
+        return false;
       }
     }
 

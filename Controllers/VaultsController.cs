@@ -22,11 +22,11 @@ namespace keepr.Controllers
     [HttpGet]
     public IEnumerable<Vault> Get() => _repo.GetVaults(HttpContext.User.Identity.Name);
 
-    [HttpGet("keeps")]
-    public IEnumerable<Keep> GetKeeps(int vaultId) => _repo.GetKeepsFromVault(vaultId);
+    [HttpGet("keeps/{vaultId}")]
+    public IEnumerable<Keep> GetKeeps([FromRoute] int vaultId) => _repo.GetKeepsFromVault(vaultId);
 
     [HttpPost]
-    public Vault Create(Vault vault)
+    public Vault Create([FromBody] Vault vault)
     {
       if (!ModelState.IsValid)
       {
@@ -37,10 +37,10 @@ namespace keepr.Controllers
     }
 
     [HttpPut]
-    public Vault Update(Vault vault) => _repo.Update(vault);
+    public bool Update([FromBody] Vault vault) => _repo.Update(vault);
 
-    [HttpDelete]
-    public bool Delete(int id) => _repo.DeleteById(id, HttpContext.User.Identity.Name);
+    [HttpDelete("{id}")]
+    public bool Delete([FromRoute] int id) => _repo.DeleteById(id, HttpContext.User.Identity.Name);
   }
 
 }

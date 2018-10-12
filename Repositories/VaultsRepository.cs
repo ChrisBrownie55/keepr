@@ -40,25 +40,21 @@ namespace keepr.Repositories
       }
     }
 
-    public Vault Update(Vault vault)
+    public bool Update(Vault vault)
     {
       try
       {
-        _db.ExecuteScalar(@"
-          UPDATE vaults SET (
-            name,
-            description
-          ) VALUES (
-            @Name,
-            @Description
-          ) WHERE id = @Id;
-        ", vault);
-        return vault;
+        return _db.Execute(@"
+          UPDATE vaults SET
+            name = @Name,
+            description = @Description
+          WHERE id = @Id;
+        ", vault) == 1;
       }
       catch (SqlException error)
       {
         System.Console.WriteLine(error.Message);
-        return null;
+        return false;
       }
     }
 

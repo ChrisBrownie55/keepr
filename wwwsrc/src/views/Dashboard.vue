@@ -5,8 +5,17 @@
 </template>
 
 <script>
+import { mapActions, mapState } from 'vuex';
+import VaultCard from '@/components/VaultCard.vue';
+
 export default {
-  name: 'Dashboard'
+  name: 'Dashboard',
+  methods: {
+    ...mapActions('vaults', [''])
+  },
+  components: {
+    VaultCard
+  }
 };
 </script>
 
