@@ -9,8 +9,8 @@
       <base-input autocomplete='off' required type='url' v-model='keep.img' label='Image URL' placeholder='https://example.com/example.jpg'></base-input>
       <!-- TODO: Make a checkbox component -->
       <div class='actions'>
-        <base-button type='submit'>Create</base-button>
-        <base-button type='reset' style='border: none; box-shadow: none !important;'>Reset</base-button>
+        <outline-button type='submit'>Create</outline-button>
+        <flat-button type='reset' style='border: none; box-shadow: none !important;'>Reset</flat-button>
       </div>
     </form>
   </div>
@@ -18,6 +18,8 @@
 
 <script>
 import { mapActions } from 'vuex';
+import OutlineButton from '@/components/OutlineButton.vue';
+import FlatButton from '@/components/FlatButton.vue';
 
 export default {
   name: 'New-keep',
@@ -37,6 +39,10 @@ export default {
       this.createKeep(this.keep);
       this.$refs.form.reset();
     }
+  },
+  components: {
+    OutlineButton,
+    FlatButton
   }
 };
 </script>

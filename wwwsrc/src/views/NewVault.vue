@@ -7,8 +7,8 @@
       <base-input required label='Name' placeholder='Pretty room ideas' v-model='vault.name'></base-input>
       <base-input required label='Description' placeholder='Lots of ideas for decorations for rooms and whatnot.' v-model='vault.description'></base-input>
       <div class='actions'>
-        <base-button type='submit'>Submit</base-button>
-        <base-button type='reset'>Reset</base-button>
+        <outline-button type='submit'>Submit</outline-button>
+        <flat-button type='reset'>Reset</flat-button>
       </div>
     </form>
   </div>
@@ -16,6 +16,8 @@
 
 <script>
 import { mapActions } from 'vuex';
+import OutlineButton from '@/components/OutlineButton.vue';
+import FlatButton from '@/components/FlatButton.vue';
 
 export default {
   name: 'New-Vault',
@@ -33,6 +35,10 @@ export default {
       this.createVault(this.vault);
       this.$refs.form.reset();
     }
+  },
+  components: {
+    OutlineButton,
+    FlatButton
   }
 };
 </script>

@@ -11,18 +11,17 @@
       <icon-button title='Delete' v-if='user.id === userId' icon='delete' @click.stop='deleteKeep(id)'></icon-button>
     </template>
     <transition name='fade'>
-      <section class='dialog' ref='dialog' v-if='dialogOpen' @click.stop>
-        <form @submit.prevent='addKeepToVault({ vaultId, keepId: id })'>
-          <h2>Select a vault</h2>
-          <select required v-model='vaultId' v-if='vaults.length'>
-            <option v-for='vault in vaults' :key='vault.id' :value='vault.id'>
-              {{ vault.name }}
-            </option>
-          </select>
-          <base-button v-if='vaults.length' type='submit' style='margin-top: 0.5rem;'>Add to vault</base-button>
-          <p v-else>You need to create a vault first.</p>
-        </form>
-      </section>
+      <form v-if='dialogOpen' @click.stop class='dialog' ref='dialog' @submit.prevent='addKeepToVault({ vaultId, keepId: id })'>
+        <h2 style='margin-bottom: 0.5rem;'>Store keep in vault</h2>
+        <select required style='font-size: 1rem; cursor: pointer; border-radius: 4px; padding: 0.15rem 0.35rem;' v-model='vaultId' v-if='vaults.length'>
+          <option selected disabled value=''>Please select a vault</option>
+          <option v-for='vault in vaults' :key='vault.id' :value='vault.id'>
+            {{ vault.name }}
+          </option>
+        </select>
+        <outline-button v-if='vaults.length' type='submit' style='margin-top: 0.5rem;'>Store in vault</outline-button>
+        <p v-else>You need to create a vault first.</p>
+      </form>
     </transition>
   </base-card>
 </template>
@@ -30,6 +29,7 @@
 <script>
 import { mapActions, mapState } from 'vuex';
 import IconButton from '@/components/IconButton.vue';
+import OutlineButton from '@/components/OutlineButton.vue';
 
 export default {
   name: 'keep-card',
@@ -104,7 +104,8 @@ export default {
     }
   },
   components: {
-    IconButton
+    IconButton,
+    OutlineButton
   }
 };
 </script>
@@ -115,11 +116,18 @@ export default {
 }
 
 .dialog {
+  display: flex;
+  flex-direction: column;
+
   width: calc(100% - 2rem);
+  padding: 0.5rem 1rem;
+
   position: absolute;
   top: 50%;
-  transform: translateY(-50%);
-  padding: 0.5rem 1rem;
+
   background-color: white;
+
+  transform: translateY(-50%);
+  cursor: default;
 }
 </style>

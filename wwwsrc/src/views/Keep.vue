@@ -13,7 +13,7 @@
       <p>Views: {{ keep.views }}</p>
       <p>Shares: {{ keep.shares }}</p>
       <base-button @click='share'>Share</base-button>
-      <template v-if='user.id'>
+      <template v-if='user.id == keep.userId'>
         <base-button key='edit' @click='editing = true' v-if='!editing'>Edit</base-button>
         <template v-else>
           <base-button key='save' @click='saveEdits'>Save</base-button>
