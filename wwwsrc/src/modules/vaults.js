@@ -1,5 +1,6 @@
 import router from '@/router'
 import Axios from 'axios'
+import HashArray from 'hasharray'
 
 const api = Axios.create({
   baseURL: "//localhost:5000/api/vaults/",
@@ -9,7 +10,8 @@ const api = Axios.create({
 
 export default {
   state: {
-    vaults: []
+    vaults: [],
+    vaultKeeps: new HashArray() // ids of "keeps in vaults"
   },
   mutations: {
     setVaults(state, vaults) {
@@ -17,12 +19,13 @@ export default {
     },
     setVaultKeeps(state, { id, keeps }) {
       state.vaults.find(vault => vault.id === id).keeps = keeps
+      state.vaultKeeps.addAll(keeps.map(keep => keep.id))
     },
     editVault(state, newVault) {
       const vault = state.vaults.find(vault => vault.id === newVault.id)
       vault.name = newVault.name
       vault.description = newVault.description
-    }
+    },
   },
   actions: {
     async getVaults({ commit, rootState, dispatch }) {

@@ -12,6 +12,8 @@ import NewVault from './views/NewVault.vue'
 import Vault from './views/Vault.vue'
 import Account from './views/Account.vue'
 
+import FourOhFour from './views/FourOhFour.vue'
+
 Vue.use(Router)
 
 const router = new Router({
@@ -72,6 +74,11 @@ const router = new Router({
       meta: {
         requiresAuth: true
       }
+    },
+    {
+      path: '*',
+      name: '404',
+      component: FourOhFour
     }
   ]
 })

@@ -62,6 +62,8 @@ body::-webkit-scrollbar-thumb {
   min-height: calc(100vh - 2.5rem);
   padding-bottom: 2.5rem;
 
+  background-color: white;
+
   font-family: Roboto, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
     Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   -webkit-font-smoothing: antialiased;

@@ -64,9 +64,11 @@ export default {
     },
     async init() {
       this.keep = await this.getKeep(this.$props.id);
-      this.modifiedKeep = { ...this.keep };
       if (!this.keep.id) {
         this.$router.push({ name: 'home' });
+      } else {
+        console.log(this.keep);
+        this.modifiedKeep = { ...this.keep };
       }
     },
     async saveEdits() {
@@ -83,6 +85,9 @@ export default {
   },
   mounted() {
     this.init();
+  },
+  watch: {
+    '$props.id': 'init'
   },
   components: {
     KeepCard

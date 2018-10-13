@@ -75,6 +75,16 @@ export default {
   margin-top: 1.25rem;
 }
 
+.vaults {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+
+  & > * {
+    margin: 1rem;
+  }
+}
+
 .keeps {
   display: block;
   width: 15rem;
