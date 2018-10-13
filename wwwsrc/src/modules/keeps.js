@@ -87,7 +87,7 @@ export default {
       try {
         const { data: keeps } = await api.get(`searchByName/?name=${name}`)
         commit('setKeeps', keeps)
-        await dispatch('loadIamges', keeps)
+        await dispatch('loadImages', keeps)
       } catch (error) {
         console.log(error)
       }

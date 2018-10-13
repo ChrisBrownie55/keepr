@@ -1,15 +1,15 @@
 <template>
   <div class='page dashboard'>
     <h1 class='page__title'>Dashboard</h1>
-    <h1>My Vaults</h1>
+    <h2 class='subheader'>My Vaults</h2>
     <section class='vaults'>
       <vault-card v-for='vault in vaults' :key='vault.id' v-bind='vault'></vault-card>
       <p v-if='!vaults.length'>You don't have any vaults. Try that button in the bottom right corner to make a new one.</p>
     </section>
-    <h1>My Keeps</h1>
-    <section class='keeps'>
+    <h2 class='subheader'>My Keeps</h2>
+    <section :class='{ myKeeps: myKeeps && myKeeps.length }'>
       <keep-card v-for='keep in myKeeps' :key='keep.id' v-bind='keep'></keep-card>
-      <p v-if='!myKeeps.length'>You don't have any keeps. You can add them from the home page.</p>
+      <p v-if='!myKeeps.length'>You don't have any keeps. You can create them from the home page.</p>
     </section>
     <floating-action-button icon='add' :to='{ name: "new-vault" }' title='New vault'></floating-action-button>
   </div>
@@ -61,6 +61,20 @@ export default {
 </script>
 
 <style scoped lang='scss'>
+.dashboard {
+  padding-left: 2rem;
+  padding-right: 2rem;
+  width: calc(100% - 4rem);
+}
+
+.page__title {
+  margin-bottom: 1.5rem;
+}
+
+.subheader {
+  margin-top: 1.25rem;
+}
+
 .keeps {
   display: block;
   width: 15rem;

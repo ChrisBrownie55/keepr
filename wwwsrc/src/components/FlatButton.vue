@@ -1,12 +1,16 @@
 <template>
-  <base-button v-on='$listeners' class='flat-button'>
+  <outline-button v-on='$listeners' class='flat-button'>
     <slot></slot>
-  </base-button>
+  </outline-button>
 </template>
 
 <script>
+import OutlineButton from '@/components/OutlineButton.vue';
 export default {
-  name: 'flat-button'
+  name: 'flat-button',
+  components: {
+    OutlineButton
+  }
 };
 </script>
 

@@ -11,8 +11,8 @@
       <base-input required type='password' v-model='creds.password' name='password' label='Password' placeholder='**********'></base-input>
       <div class='actions'>
         <transition name='fade' mode='out-in'>
-          <base-button v-if='loginForm' type="submit">Login</base-button>
-          <base-button v-else type="submit">Signup</base-button>
+          <outline-button v-if='loginForm' type="submit">Login</outline-button>
+          <outline-button v-else type="submit">Signup</outline-button>
         </transition>
         <flat-button type='button' v-text='loginForm ? "or signup" : "or login"' @click='loginForm = !loginForm'></flat-button>
       </div>
@@ -23,6 +23,7 @@
 <script>
 import { mapActions } from 'vuex';
 import FlatButton from '@/components/FlatButton.vue';
+import OutlineButton from '@/components/OutlineButton.vue';
 
 export default {
   name: 'Login',
@@ -53,7 +54,8 @@ export default {
     }
   },
   components: {
-    FlatButton
+    FlatButton,
+    OutlineButton
   }
 };
 </script>

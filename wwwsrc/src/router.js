@@ -10,6 +10,7 @@ import NewKeep from './views/NewKeep.vue'
 import Keep from './views/Keep.vue'
 import NewVault from './views/NewVault.vue'
 import Vault from './views/Vault.vue'
+import Account from './views/Account.vue'
 
 Vue.use(Router)
 
@@ -60,6 +61,14 @@ const router = new Router({
       name: 'vault',
       component: Vault,
       props: true,
+      meta: {
+        requiresAuth: true
+      }
+    },
+    {
+      path: '/account',
+      name: 'account',
+      component: Account,
       meta: {
         requiresAuth: true
       }

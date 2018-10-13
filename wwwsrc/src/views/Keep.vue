@@ -13,14 +13,16 @@
       <p>Views: {{ keep.views }}</p>
       <p>Shares: {{ keep.shares }}</p>
       <base-button @click='share'>Share</base-button>
-      <base-button key='edit' @click='editing = true' v-if='!editing'>Edit</base-button>
-      <template v-else>
-        <base-button key='save' @click='saveEdits'>Save</base-button>
-        <base-button key='cancel' @click='cancelEdits'>Cancel</base-button>
+      <template v-if='user.id'>
+        <base-button key='edit' @click='editing = true' v-if='!editing'>Edit</base-button>
+        <template v-else>
+          <base-button key='save' @click='saveEdits'>Save</base-button>
+          <base-button key='cancel' @click='cancelEdits'>Cancel</base-button>
+        </template>
+        <base-button key='delete' @click='deleteKeep(id)' v-if='$store.state.auth.user.id === keep.userId && !editing'>
+          Delete
+        </base-button>
       </template>
-      <base-button key='delete' @click='deleteKeep(id)' v-if='$store.state.auth.user.id === keep.userId && !editing'>
-        Delete
-      </base-button>
     </template>
   </div>
 </template>
@@ -42,6 +44,9 @@ export default {
       modifiedKeep: {},
       editing: false
     };
+  },
+  computed: {
+    ...mapState('auth', ['user'])
   },
   methods: {
     ...mapActions('keeps', ['getKeep', 'shareKeep', 'deleteKeep', 'editKeep']),

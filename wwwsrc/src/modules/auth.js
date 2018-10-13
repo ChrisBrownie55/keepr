@@ -37,9 +37,9 @@ export default {
       try {
         const { data: user } = await auth.post('register', creds)
         commit('setUser', user)
-        // router.push(router.currentRoute.query.redirect || '/')
+        router.push(router.currentRoute.query.redirect || '/')
       } catch (error) {
-        // swallow error
+        console.log(error)
       }
     },
     async login({ commit, dispatch }, creds) {
@@ -53,7 +53,8 @@ export default {
     },
     async logout({ commit, dispatch }) {
       try {
-        await auth.delete('logout', creds)
+        await auth.delete('logout')
+        commit('setUser', {})
         router.push({ name: 'home' })
       } catch (error) {
         dispatch('error', error)
