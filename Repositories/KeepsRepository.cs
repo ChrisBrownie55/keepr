@@ -106,7 +106,7 @@ namespace keepr.Repositories
 
     public bool StoreInVault(VaultKeep vaultKeep)
     {
-      return _db.Execute(@"
+      return _db.ExecuteScalar<int>(@"
         INSERT INTO vaultkeeps (
           vaultId,
           keepId,
@@ -116,7 +116,9 @@ namespace keepr.Repositories
           @KeepId,
           @UserId
         );
-      ", vaultKeep) == 1;
+        UPDATE keeps SET keeps = keeps + 1 WHERE id = @KeepId;
+        SELECT ROW_COUNT();
+      ", vaultKeep) != 0;
     }
 
     public bool RemoveFromVault(int keepId, string userId)

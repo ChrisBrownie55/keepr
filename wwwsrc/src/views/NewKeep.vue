@@ -7,6 +7,7 @@
       <base-input autocomplete='off' required type='text' v-model='keep.name' label='Name' placeholder='Like "Burger pizza recipe"'></base-input>
       <base-input autocomplete='off' required type='text' v-model='keep.description' label='Description' placeholder='A burger made of two pizzas and a ton of meat.'></base-input>
       <base-input autocomplete='off' required type='url' v-model='keep.img' label='Image URL' placeholder='https://example.com/example.jpg'></base-input>
+      <toggle-input label='Private' v-model='keep.isPrivate' :checked='keep.isPrivate'></toggle-input>
       <!-- TODO: Make a checkbox component -->
       <div class='actions'>
         <outline-button type='submit'>Create</outline-button>
@@ -20,6 +21,7 @@
 import { mapActions } from 'vuex';
 import OutlineButton from '@/components/OutlineButton.vue';
 import FlatButton from '@/components/FlatButton.vue';
+import ToggleInput from '@/components/ToggleInput.vue';
 
 export default {
   name: 'New-keep',
@@ -42,7 +44,8 @@ export default {
   },
   components: {
     OutlineButton,
-    FlatButton
+    FlatButton,
+    ToggleInput
   }
 };
 </script>
@@ -66,6 +69,12 @@ export default {
 
     .input {
       margin-bottom: 0.125rem;
+    }
+
+    .toggle {
+      margin-left: 0.35rem;
+      margin-top: 0.5rem;
+      margin-bottom: 0.5rem;
     }
 
     .actions {

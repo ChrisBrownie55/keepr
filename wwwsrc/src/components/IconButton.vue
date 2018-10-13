@@ -1,6 +1,7 @@
 <template>
   <flat-button v-on='$listeners' class='icon-button'>
-    <base-icon>{{ icon }}</base-icon>
+    <base-icon v-if='icon'>{{ icon }}</base-icon>
+    <div v-if='iconHTML' v-html='iconHTML' class='custom-html'></div>
     <slot></slot>
   </flat-button>
 </template>
@@ -11,8 +12,10 @@ export default {
   name: 'icon-button',
   props: {
     icon: {
-      type: String,
-      required: true
+      type: String
+    },
+    iconHTML: {
+      type: String
     }
   },
   components: {
@@ -38,6 +41,16 @@ export default {
   &:focus {
     background-color: var(--theme-primary) !important;
     opacity: 1;
+  }
+
+  .custom-html {
+    width: 1.25rem;
+    height: 1.25rem;
+    padding: 0.125rem;
+  }
+  .custom-html :global(*) {
+    max-width: 100%;
+    max-height: 100%;
   }
 }
 </style>

@@ -28,12 +28,15 @@
 --     isPrivate BOOLEAN NOT NULL,
 --     views INT DEFAULT 0,
 --     shares INT DEFAULT 0,
+--     keeps INT DEFAULT 0,
 --     INDEX userId (userId),
 --     FOREIGN KEY (userId)
 --         REFERENCES users(id)
 --         ON DELETE CASCADE,
 --     PRIMARY KEY (id)
 -- );
+
+ALTER TABLE keeps ADD COLUMN `keeps` INT DEFAULT 0 AFTER `shares`;
 
 -- CREATE TABLE vaultkeeps (
 --     id int NOT NULL AUTO_INCREMENT,
