@@ -36,8 +36,6 @@
 --     PRIMARY KEY (id)
 -- );
 
-ALTER TABLE keeps ADD COLUMN `keeps` INT DEFAULT 0 AFTER `shares`;
-
 -- CREATE TABLE vaultkeeps (
 --     id int NOT NULL AUTO_INCREMENT,
 --     vaultId int NOT NULL,

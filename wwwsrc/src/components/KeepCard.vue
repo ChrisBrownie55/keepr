@@ -9,7 +9,7 @@
       <icon-button title='Store in vault' v-if='!inVault' icon='add' @click.stop='openDialog()'></icon-button>
       <icon-button title='Remove from vault' v-else icon='remove' @click.stop='removeKeepFromVault(id)'></icon-button>
       <icon-button title='Delete' v-if='user.id === userId' icon='delete' @click.stop='deleteKeep(id)'></icon-button>
-      <icon-button :iconHTML='twitterIcon' @click=''></icon-button>
+      <icon-button :iconHTML='twitterIcon' @click.stop='share'></icon-button>
     </template>
     <transition name='fade'>
       <form v-if='dialogOpen' @click.stop class='dialog' ref='dialog' @submit.prevent='addKeepToVault({ vaultId, keepId: id })'>
@@ -101,7 +101,7 @@ export default {
     async share() {
       window.open(
         `https://twitter.com/intent/tweet?text=${encodeURIComponent(
-          window.location.href
+          `${window.location.origin}/keep/${this.$props.id}`
         )}`
       );
       const shares = await this.shareKeep(this.$props.id);

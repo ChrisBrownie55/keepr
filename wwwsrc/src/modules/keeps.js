@@ -124,6 +124,8 @@ export default {
         }
         const keeps = state.keeps.filter(keep => keep.id !== id)
         commit('setKeeps', keeps)
+        const myKeeps = state.myKeeps.filter(keep => keep.id !== id)
+        commit('setMyKeeps', myKeeps)
       } catch (error) {
         console.log(error)
       }

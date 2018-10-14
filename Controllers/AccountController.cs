@@ -15,40 +15,81 @@ namespace keepr.Controllers
     private readonly UserRepository _repo;
 
     [HttpPost("Login")]
-    public async Task<User> Login([FromBody]UserLogin creds)
+    public async Task<IActionResult> Login([FromBody] UserLogin creds)
     {
-      if (!ModelState.IsValid) { throw new Exception("Invalid Credentials"); }
-      User user = _repo.Login(creds);
-      if (user == null) { throw new Exception("Invalid Credentials"); }
+      if (!ModelState.IsValid)
+      {
+        return BadRequest("Invalid login information.");
+      }
+
+      User user;
+      try
+      {
+        user = _repo.Login(creds);
+      }
+      catch (Exception error)
+      {
+        return BadRequest(error.Message);
+      }
+
       user.SetClaims();
       await HttpContext.SignInAsync(user._principal);
-      return user;
+
+      return Ok(user);
     }
 
     [HttpPost("Register")]
-    public async Task<User> Register([FromBody]UserRegistration creds)
+    public async Task<IActionResult> Register([FromBody] UserRegistration creds)
     {
-      if (!ModelState.IsValid) { throw new Exception("Invalid Credentials"); }
-      User user = _repo.Register(creds);
-      if (user == null) { throw new Exception("Invalid Credentials2"); }
+      if (!ModelState.IsValid)
+      {
+        return BadRequest("Invalid registration information.");
+      }
+
+      User user;
+      try
+      {
+        user = _repo.Register(creds);
+      }
+      catch (Exception error)
+      {
+        return BadRequest(error.Message);
+      }
+
       user.SetClaims();
       await HttpContext.SignInAsync(user._principal);
-      return user;
+
+      return Ok(user);
     }
 
     [HttpDelete("Logout")]
-    public async Task<bool> Logout()
+    public async Task<IActionResult> Logout()
     {
-      await HttpContext.SignOutAsync();
-      return true;
+      try
+      {
+        await HttpContext.SignOutAsync();
+      }
+      catch
+      {
+        return BadRequest("Unable to logout.");
+      }
+
+      return Ok();
     }
 
     [Authorize]
     [HttpGet("Authenticate")]
-    public User Authenticate()
+    public IActionResult Authenticate()
     {
       var id = HttpContext.User.Identity.Name;
-      return _repo.GetUserById(id);
+      try
+      {
+        return Ok(_repo.GetUserById(id));
+      }
+      catch (Exception error)
+      {
+        return BadRequest(error.Message);
+      }
     }
 
     public AccountController(UserRepository repo)

@@ -90,15 +90,6 @@ namespace keepr
       app.UseAuthentication();
       app.UseDefaultFiles();
       app.UseStaticFiles();
-      app.UseExceptionHandler("/Error").WithConventions(o =>
-     {
-       o.ForException<Exception>().ReturnStatusCode(400).UsingMessageFormatter((ex, ctx, task) =>
-             {
-               ctx.Response.ContentType = "application/json";
-               ctx.Response.WriteAsync(ex.Message);
-               return Task.CompletedTask;
-             });
-     });
       app.UseMvc();
     }
   }

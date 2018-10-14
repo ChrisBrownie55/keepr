@@ -22,42 +22,39 @@ export default {
     }
   },
   actions: {
-    error(context, error) {
-      console.log(error) // TODO: visual notification of error for user
-    },
-    async authenticate({ commit, dispatch }) {
+    async authenticate({ commit }) {
       try {
         const { data: user } = await authenticate.get('')
         commit('setUser', user)
       } catch (error) {
-        // dispatch('error', error)
+        // Swallow errors
       }
     },
-    async register({ commit, dispatch }, creds) {
+    async register({ commit }, creds) {
       try {
         const { data: user } = await auth.post('register', creds)
         commit('setUser', user)
         router.push(router.currentRoute.query.redirect || '/')
       } catch (error) {
-        console.log(error)
+        this.dispatch('snacks/networkError', error)
       }
     },
-    async login({ commit, dispatch }, creds) {
+    async login({ commit }, creds) {
       try {
         const { data: user } = await auth.post('login', creds)
         commit('setUser', user)
         router.push(router.currentRoute.query.redirect || '/')
       } catch (error) {
-        dispatch('error', error)
+        this.dispatch('snacks/networkError', error)
       }
     },
-    async logout({ commit, dispatch }) {
+    async logout({ commit }) {
       try {
         await auth.delete('logout')
         commit('setUser', {})
         router.push({ name: 'home' })
       } catch (error) {
-        dispatch('error', error)
+        this.dispatch('snacks/networkError', error)
       }
     }
   }

@@ -101,7 +101,7 @@ namespace keepr.Repositories
 
     public bool DeleteById(int id, string userId)
     {
-      return _db.Execute("DELETE FROM keeps WHERE id = @id AND isPrivate = FALSE AND userId = @userId;", new { id, userId }) == 1;
+      return _db.Execute("DELETE FROM keeps WHERE id = @id AND isPrivate = TRUE AND userId = @userId;", new { id, userId }) == 1;
     }
 
     public bool StoreInVault(VaultKeep vaultKeep)

@@ -8,10 +8,16 @@
     <transition name='fade' mode='out-in'>
       <router-view />
     </transition>
+    <div class='snackbars'>
+      <snackbar v-for='(snack, index) in snacks' :key='index' v-bind='snack'></snackbar>
+    </div>
   </div>
 </template>
 
 <script>
+import { mapState } from 'vuex';
+import Snackbar from '@/components/Snackbar.vue';
+
 export default {
   data() {
     return {
@@ -21,6 +27,12 @@ export default {
         { routes: ['dashboard'], icon: 'dashboard' }
       ]
     };
+  },
+  computed: {
+    ...mapState('snacks', ['snacks'])
+  },
+  components: {
+    Snackbar
   }
 };
 </script>
@@ -264,6 +276,22 @@ h5.skeleton {
     left: 0;
     right: auto;
     opacity: 0.3;
+  }
+}
+
+.snackbars {
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: center;
+
+  width: 100%;
+
+  position: absolute;
+  bottom: 3rem;
+  left: 0;
+
+  & > .snackbar:not(:first-child) {
+    margin-bottom: 0.25rem;
   }
 }
 </style>

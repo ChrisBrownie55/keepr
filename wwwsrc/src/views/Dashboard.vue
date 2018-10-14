@@ -85,7 +85,7 @@ export default {
   }
 }
 
-.keeps {
+.myKeeps {
   display: block;
   width: 15rem;
 

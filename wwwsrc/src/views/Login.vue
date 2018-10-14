@@ -5,7 +5,7 @@
         Welcome to <span style='font-weight: bold; color: var(--theme-primary); text-decoration: underline;'>Keepr</span>
       </h2>
       <transition name='max-height'>
-        <base-input required v-if='!loginForm' type='text' v-model='creds.name' name='name' label='Name' placeholder='Chris'></base-input>
+        <base-input required v-if='!loginForm' type='text' v-model='creds.name' name='name' label='Name' hint='Max length is 20 characters' maxlength='20' placeholder='Chris'></base-input>
       </transition>
       <base-input required type='email' v-model='creds.email' name='email' label='Email' placeholder='example@example.com'></base-input>
       <base-input required type='password' v-model='creds.password' name='password' label='Password' placeholder='**********'></base-input>

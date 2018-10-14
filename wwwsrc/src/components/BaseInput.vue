@@ -1,7 +1,8 @@
 <template>
   <label class='input'>
-    <span v-if='label'>{{ label }}</span>
+    <span v-if='label' class='label'>{{ label }}</span>
     <input v-bind='$attrs' v-on='listeners' />
+    <span v-if='hint' class='hint'>{{ hint }}</span>
   </label>
 </template>
 
@@ -13,6 +14,7 @@ export default {
   inheritAttrs: false,
   props: {
     label: String,
+    hint: String,
     value: [String, Number],
     debounce: {
       type: Number,
@@ -55,7 +57,7 @@ export default {
   input {
     width: calc(100% - 28px);
     padding: 8px;
-    margin: 6px auto;
+    margin: 6px auto 2px;
 
     border: solid 1px #8e8e8e;
     border-radius: 4px;
@@ -73,9 +75,16 @@ export default {
       outline: none;
     }
   }
-  span {
+  .label {
     margin-left: 6px;
     margin-right: auto;
+  }
+  .hint {
+    margin-left: 8px;
+    margin-right: auto;
+    margin-bottom: 6px;
+
+    font-size: 0.65rem;
   }
 }
 </style>
