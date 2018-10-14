@@ -42,6 +42,9 @@ export default {
   },
   // TODO: Make error handling notify the user
   actions: {
+    clearMyKeeps({ commit }) {
+      commit('setMyKeeps', [])
+    },
     loadImages(context, keeps) {
       return Promise.all(keeps.map(keep => new Promise((resolve, reject) => {
         const image = new Image()
@@ -126,6 +129,10 @@ export default {
         commit('setKeeps', keeps)
         const myKeeps = state.myKeeps.filter(keep => keep.id !== id)
         commit('setMyKeeps', myKeeps)
+        this.dispatch('vaults/removeKeep', id)
+        if (router.currentRoute.name === 'keep') {
+          router.replace({ name: 'home' })
+        }
       } catch (error) {
         console.log(error)
       }
@@ -194,6 +201,42 @@ export default {
       } catch (error) {
         console.log(error)
       }
-    }
+    },
+    // async generateRandomKeeps({ rootState, dispatch }) {
+    //   if (!rootState.auth.user.id) {
+    //     return
+    //   }
+
+    //   const payload = {
+    //     "token": "gnyIpEXalCVp3SprCCsGFQ",
+    //     "data": {
+    //       "name": "stringWords|1,3",
+    //       "description": "stringWords|15,30",
+    //       "isPrivate": "numberBool",
+    //       "views": "numberInt|0,200",
+    //       "shares": "numberInt|0,50",
+    //       "keeps": 0,
+    //       "_repeat": 25
+    //     },
+    //   }
+
+    //   try {
+    //     const { data: keeps } = await Axios({
+    //       method: 'post',
+    //       url: 'https://app.fakejson.com/q',
+    //       data: payload
+    //     })
+
+    //     const sizes = ['800x800', '400x800', '512x400', '1024x800', '900x450']
+    //     const getRandomSize = () => sizes[Math.floor(Math.random() * sizes.length)]
+
+    //     keeps.map((keep, index) => keep.img = `https://source.unsplash.com/${getRandomSize()}/?sig=${index + 81}`)
+    //     keeps.forEach(keep => {
+    //       dispatch('createKeep', keep)
+    //     })
+    //   } catch (error) {
+    //     this.dispatch('snacks/notify', { message: error.message, type: 'info' })
+    //   }
+    // }
   }
 }

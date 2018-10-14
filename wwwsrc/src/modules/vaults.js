@@ -1,6 +1,5 @@
 import router from '@/router'
 import Axios from 'axios'
-import HashArray from 'hasharray'
 
 const api = Axios.create({
   baseURL: "//localhost:5000/api/vaults/",
@@ -11,7 +10,7 @@ const api = Axios.create({
 export default {
   state: {
     vaults: [],
-    vaultKeeps: new HashArray() // ids of "keeps in vaults"
+    vaultKeeps: new Map() // ids of "keeps in vaults"
   },
   mutations: {
     setVaults(state, vaults) {
@@ -19,7 +18,10 @@ export default {
     },
     setVaultKeeps(state, { id, keeps }) {
       state.vaults.find(vault => vault.id === id).keeps = keeps
-      state.vaultKeeps.addAll(keeps.map(keep => keep.id))
+      keeps.forEach(keep => state.vaultKeeps.set(keep.id))
+    },
+    clearVaultKeeps(state) {
+      state.vaultKeeps = new Map()
     },
     editVault(state, newVault) {
       const vault = state.vaults.find(vault => vault.id === newVault.id)
@@ -28,6 +30,10 @@ export default {
     },
   },
   actions: {
+    clearVaults({ commit }) {
+      commit('setVaults', [])
+      commit('clearVaultKeeps')
+    },
     async getVaults({ commit, rootState, dispatch }) {
       if (!rootState.auth.user.id) {
         // TODO: Notify user they need to login.
@@ -128,6 +134,14 @@ export default {
       } catch (error) {
         console.log(error)
       }
+    },
+    removeKeep({ commit, state }, id) {
+      const vaults = state.vaults.map(vault => ({
+        ...vault,
+        keeps: vault.keeps.filter(keep => keep.id !== id).map(keep => ({ ...keep }))
+      }))
+
+      commmit('setVaults', vaults)
     }
   }
 }

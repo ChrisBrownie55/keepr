@@ -5,14 +5,17 @@
       <p class='title'>{{ name }}</p>
       <p class='paragraph'>{{ description | truncate(50) }}</p>
     </template>
-    <template slot='actions' v-if='user.id'>
-      <icon-button title='Store in vault' v-if='!inVault' icon='add' @click.stop='openDialog()'></icon-button>
-      <icon-button title='Remove from vault' v-else icon='remove' @click.stop='removeKeepFromVault(id)'></icon-button>
-      <icon-button title='Delete' v-if='user.id === userId' icon='delete' @click.stop='deleteKeep(id)'></icon-button>
-      <icon-button :iconHTML='twitterIcon' @click.stop='share'></icon-button>
+    <template slot='actions'>
+      <icon-button title='Open' icon='open_in_new'></icon-button>
+      <template v-if='user.id'>
+        <icon-button title='Store in vault' v-if='!inVault' icon='add' @click.stop='openDialog()'></icon-button>
+        <icon-button title='Remove from vault' v-else icon='remove' @click.stop='removeKeepFromVault(id)'></icon-button>
+        <icon-button title='Delete' v-if='user.id === userId && isPrivate' icon='delete' @click.stop='deleteKeep(id)'></icon-button>
+      </template>
+      <icon-button title='Share on twitter' :iconHTML='twitterIcon' @click.stop='share'></icon-button>
     </template>
     <transition name='fade'>
-      <form v-if='dialogOpen' @click.stop class='dialog' ref='dialog' @submit.prevent='addKeepToVault({ vaultId, keepId: id })'>
+      <form v-if='dialogOpen' @click.stop class='dialog' ref='dialog' @submit.prevent='addKeepToVault({ vaultId, keepId: id }); $refs.dialog.reset(); closeDialog()'>
         <h2 style='margin-bottom: 0.5rem;'>Store keep in vault</h2>
         <select required style='font-size: 1rem; cursor: pointer; border-radius: 4px; padding: 0.15rem 0.35rem;' v-model='vaultId' v-if='vaults.length'>
           <option selected disabled value=''>Please select a vault</option>
@@ -55,6 +58,10 @@ export default {
       type: String,
       required: true
     },
+    isPrivate: {
+      type: Boolean,
+      required: true
+    },
     views: {
       type: Number,
       required: true
@@ -65,7 +72,7 @@ export default {
     },
     inVault: {
       type: Boolean,
-      default: false
+      required: true
     }
   },
   data() {
@@ -94,7 +101,7 @@ export default {
       this.dialogOpen = true;
     },
     closeDialog(event) {
-      if (event.target !== this.$refs.dialog) {
+      if (!event || event.target !== this.$refs.dialog) {
         this.dialogOpen = false;
       }
     },

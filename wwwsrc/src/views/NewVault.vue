@@ -4,8 +4,8 @@
     <h5 class='page__subtitle' style='color: white; font-weight: 400;'>Store your ideas 😎</h5>
     <form class='new-vault__form' @submit.prevent='submit' ref='form'>
       <h2 style='font-weight: 400; margin-bottom: 1rem' align='center'>New vault</h2>
-      <base-input required label='Name' placeholder='Pretty room ideas' v-model='vault.name'></base-input>
-      <base-input required label='Description' placeholder='Lots of ideas for decorations for rooms and whatnot.' v-model='vault.description'></base-input>
+      <base-input autocomplete='off' required name='name' label='Name' placeholder='Pretty room ideas' maxlength='20' hint='Maximum length is 20 characters' v-model='vault.name'></base-input>
+      <base-input autocomplete='off' required name='description' label='Description' placeholder='Lots of ideas for decorations for rooms and whatnot.' v-model='vault.description'></base-input>
       <div class='actions'>
         <outline-button type='submit'>Submit</outline-button>
         <flat-button type='reset'>Reset</flat-button>

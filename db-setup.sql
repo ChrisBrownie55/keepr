@@ -19,6 +19,8 @@
 --     PRIMARY KEY (id)
 -- );
 
+-- DELETE FROM keeps;
+
 -- CREATE TABLE keeps (
 --     id int NOT NULL AUTO_INCREMENT,
 --     name VARCHAR(20) NOT NULL,

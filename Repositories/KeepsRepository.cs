@@ -123,8 +123,11 @@ namespace keepr.Repositories
 
     public bool RemoveFromVault(int keepId, string userId)
     {
-      return _db.Execute(@"
-        DELETE FROM vaultkeeps WHERE keepId = @keepId AND userId = @userId;", new { keepId, userId }) == 1;
+      return _db.ExecuteScalar<int>(@"
+        DELETE FROM vaultkeeps WHERE keepId = @keepId AND userId = @userId;
+        UPDATE keeps SET keeps = keeps - 1 WHERE id = @keepId;
+        SELECT ROW_COUNT();
+      ", new { keepId, userId }) != 0;
     }
   }
 }

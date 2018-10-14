@@ -52,6 +52,8 @@ export default {
       try {
         await auth.delete('logout')
         commit('setUser', {})
+        this.dispatch('keeps/clearMyKeeps')
+        this.dispatch('vaults/clearVaults')
         router.push({ name: 'home' })
       } catch (error) {
         this.dispatch('snacks/networkError', error)

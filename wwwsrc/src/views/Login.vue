@@ -5,10 +5,10 @@
         Welcome to <span style='font-weight: bold; color: var(--theme-primary); text-decoration: underline;'>Keepr</span>
       </h2>
       <transition name='max-height'>
-        <base-input required v-if='!loginForm' type='text' v-model='creds.name' name='name' label='Name' hint='Max length is 20 characters' maxlength='20' placeholder='Chris'></base-input>
+        <base-input required v-if='!loginForm' type='text' v-model='creds.name' name='name' label='Name' hint='Maximum length is 20 characters' maxlength='20' placeholder='Chris'></base-input>
       </transition>
       <base-input required type='email' v-model='creds.email' name='email' label='Email' placeholder='example@example.com'></base-input>
-      <base-input required type='password' v-model='creds.password' name='password' label='Password' placeholder='**********'></base-input>
+      <base-input required type='password' v-model='creds.password' name='password' label='Password' minlength='8' hint='Minimum length is 8 characters' placeholder='**********'></base-input>
       <div class='actions'>
         <transition name='fade' mode='out-in'>
           <outline-button v-if='loginForm' type="submit">Login</outline-button>
@@ -72,7 +72,7 @@ export default {
 }
 .max-height-enter-to,
 .max-height-leave {
-  max-height: 4rem;
+  max-height: 5rem;
 }
 
 .login {
@@ -89,15 +89,16 @@ export default {
   }
 
   &__form {
-    background-color: white;
-    border-radius: 4px;
-    padding: 1rem 2rem;
-
-    margin: auto;
-    max-width: 20rem;
-    width: calc(calc(100% - 4rem) - 2rem);
     display: flex;
     flex-direction: column;
+
+    width: calc(calc(100% - 4rem) - 2rem);
+    max-width: 20rem;
+    padding: 1rem 2rem;
+    margin: auto;
+
+    background-color: white;
+    border-radius: 4px;
 
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
 

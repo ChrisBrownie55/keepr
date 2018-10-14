@@ -8,7 +8,7 @@
     </section>
     <h2 class='subheader'>My Keeps</h2>
     <section :class='{ myKeeps: myKeeps && myKeeps.length }'>
-      <keep-card v-for='keep in myKeeps' :key='keep.id' v-bind='keep'></keep-card>
+      <keep-card v-for='keep in myKeeps' :key='keep.id' :inVault='vaultKeeps.has(keep.id)' v-bind='keep'></keep-card>
       <p v-if='!myKeeps.length'>You don't have any keeps. You can create them from the home page.</p>
     </section>
     <floating-action-button icon='add' :to='{ name: "new-vault" }' title='New vault'></floating-action-button>
@@ -41,7 +41,7 @@ export default {
     }
   },
   computed: {
-    ...mapState('vaults', ['vaults']),
+    ...mapState('vaults', ['vaults', 'vaultKeeps']),
     ...mapState('keeps', ['myKeeps'])
   },
   watch: {
