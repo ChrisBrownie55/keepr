@@ -35,7 +35,7 @@ namespace keepr.Repositories {
     }
 
     public IEnumerable<Keep> SearchByName (string name) {
-      return _db.Query<Keep> ($"SELECT * FROM keeps WHERE name LIKE '%{name}%';");
+      return _db.Query<Keep> ($"SELECT * FROM keeps WHERE name LIKE '%{name}%' AND isPrivate = FALSE;");
     }
 
     public Keep Create (Keep keep) {
@@ -68,7 +68,8 @@ namespace keepr.Repositories {
         UPDATE keeps SET
           name = @Name,
           description = @Description,
-          img = @Img
+          img = @Img,
+          isPrivate = @IsPrivate
         WHERE id = @Id;
       ", keep) == 1;
     }

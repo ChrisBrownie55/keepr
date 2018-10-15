@@ -30,15 +30,15 @@
           <h2 class='name'>{{ keep.name }}</h2>
           <p class='description'>{{ keep.description }}</p>
           <div class='stats'>
-            <div>
+            <div title='views'>
               <base-icon>remove_red_eye</base-icon>
               <p>{{ keep.views }}</p>
             </div>
-            <div>
+            <div title='shares'>
               <base-icon>share</base-icon>
               <p>{{ keep.shares }}</p>
             </div>
-            <div>
+            <div title='keeps'>
               <i v-html='keepIcon'></i>
               <p>{{ keep.keeps }}</p>
             </div>
@@ -46,17 +46,21 @@
         </main>
       </section>
     </transition>
-    <transition name='fade'>
-      <form v-if='editing'>
-        <base-input v-model='modifiedKeep.name' :value='modifiedKeep.name' />
-        <base-input v-model='modifiedKeep.description' :value='modifiedKeep.description' />
-        <toggle-input label='Private'></toggle-input>
+    <transition-group name='fade' mode='out-in'>
+      <form v-if='editing' class='edit-form' ref='editForm' @submit.prevent='saveEdits' key='form'>
+        <h2 style='margin-bottom: 0.5rem;' align='center'>Edit keep</h2>
+        <base-input type='text' name='name' v-model='modifiedKeep.name' :value='modifiedKeep.name' label='Name' placeholder='Fast cars' hint='Maximum length is 20 characters.' maxlength='20' />
+        <base-input type='text' name='description' v-model='modifiedKeep.description' :value='modifiedKeep.description' label='Description' placeholder='A racing car photo.' maxlength='255' />
+        <base-input type='url' name='image' v-model='modifiedKeep.img' :value='modifiedKeep.img' label='Image URL' placeholder='https://example.com/example-img.jpg'></base-input>
+        <toggle-input label='Private' hint="Once public, you can't go back." v-model='modifiedKeep.isPrivate' :value='modifiedKeep.isPrivate'></toggle-input>
+        <div class='actions'>
+          <outline-button type='submit'>Save</outline-button>
+          <flat-button type='button' @click='cancelEdit()'>Cancel</flat-button>
+        </div>
       </form>
-    </transition>
-    <transition name='fade'>
-      <floating-action-button v-if='user.id == keep.userId && !editing' icon='edit'>
+      <floating-action-button key='fab' v-if='user.id == keep.userId && !editing && keep.isPrivate' icon='edit' @click='openEdit'>
       </floating-action-button>
-    </transition>
+    </transition-group>
   </div>
 </template>
 
@@ -66,6 +70,9 @@ import ToggleInput from '@/components/ToggleInput.vue';
 import FloatingActionButton from '@/components/FloatingActionButton.vue';
 import IconButton from '@/components/IconButton.vue';
 import OutlineButton from '@/components/OutlineButton.vue';
+import FlatButton from '@/components/FlatButton.vue';
+
+import { traverseUpUntil } from '@/utils.js';
 
 export default {
   name: 'Keep',
@@ -149,13 +156,25 @@ export default {
 
       if (!success) {
         this.notify({ message: 'Unable to update keep.', type: 'error' });
+        this.modifiedKeep = { ...this.keep };
       } else {
         this.notify({ message: 'Keep updated!', type: 'info' });
+        this.keep = { ...this.modifiedKeep };
       }
     },
-    cancelEdits() {
-      this.editing = false;
-      this.modifiedKeep = { ...this.keep };
+    openEdit(event) {
+      document.body.click();
+      this.editing = true;
+    },
+    cancelEdit(event) {
+      if (
+        !event ||
+        traverseUpUntil(node => node.tagName === 'FORM', event.target) !==
+          this.$refs.editForm
+      ) {
+        this.editing = false;
+        this.modifiedKeep = { ...this.keep };
+      }
     },
     openDialog(event) {
       if (!this.vaults.length) {
@@ -182,18 +201,35 @@ export default {
       } else {
         document.body.removeEventListener('click', this.closeDialog);
       }
+    },
+    editing(newState) {
+      if (newState) {
+        document.body.addEventListener('click', this.cancelEdit);
+      } else {
+        document.body.removeEventListener('click', this.cancelEdit);
+      }
     }
   },
   components: {
     ToggleInput,
     FloatingActionButton,
     IconButton,
-    OutlineButton
+    OutlineButton,
+    FlatButton
   }
 };
 </script>
 
 <style scoped lang='scss'>
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.2s;
+}
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
+}
+
 .keep-page {
   width: 100%;
   height: 100%;
@@ -212,6 +248,13 @@ export default {
 
     > header > .image {
       border-radius: 4px;
+    }
+
+    > main {
+      .name,
+      .description {
+        text-align: left !important;
+      }
     }
   }
 
@@ -253,6 +296,10 @@ export default {
 
     .name {
       text-transform: capitalize;
+    }
+    .name,
+    .description {
+      text-align: center;
     }
 
     .stats {
@@ -307,6 +354,43 @@ export default {
 
   select {
     max-width: 15rem;
+  }
+}
+
+.edit-form {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+
+  display: flex;
+  flex-direction: column;
+
+  width: calc(calc(100% - 4rem) - 2rem);
+  max-width: 20rem;
+  padding: 1rem 2rem;
+
+  background-color: white;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+
+  transform: translate(-50%, -50%);
+
+  .input {
+    margin-bottom: 0.125rem;
+  }
+
+  .toggle {
+    margin-left: 0.35rem;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .actions {
+    margin-top: 0.5rem;
+    padding: 0.35rem;
+    display: flex;
+    & > *:not(:last-child) {
+      margin-right: 1rem;
+    }
   }
 }
 </style>

@@ -12,7 +12,7 @@ export default {
     keeps: [],
     myKeeps: [],
     loading: false,
-    intialLoad: true
+    initialLoad: true
   },
   getters: {
     filterByName: state => partialName => state.keeps.filter(keep => keep.name.indexOf(partialName) !== -1)
@@ -29,6 +29,9 @@ export default {
     },
     editKeep(state, newKeep) {
       const keep = state.keeps.find(keep => keep.id === newKeep.id)
+      if (!keep) {
+        return
+      }
       keep.name = newKeep.name
       keep.description = newKeep.description
       keep.img = newKeep.img
@@ -59,8 +62,8 @@ export default {
       commit('setLoading', true)
       try {
         const { data: keeps } = await api.get('')
-        commit('setKeeps', keeps)
         await dispatch('loadImages', keeps)
+        commit('setKeeps', keeps)
       } catch (error) {
         console.log(error)
       }
@@ -89,8 +92,8 @@ export default {
       commit('setLoading', true)
       try {
         const { data: keeps } = await api.get(`searchByName/?name=${name}`)
-        commit('setKeeps', keeps)
         await dispatch('loadImages', keeps)
+        commit('setKeeps', keeps)
       } catch (error) {
         console.log(error)
       }
@@ -106,8 +109,10 @@ export default {
       try {
         const result = await api.post('', keep)
         keep = result.data
-        const keeps = [keep, ...state.keeps]
-        commit('setKeeps', keeps)
+        if (!keep.isPrivate) {
+          const keeps = [keep, ...state.keeps]
+          commit('setKeeps', keeps)
+        }
         router.push({ name: 'home' })
       } catch (error) {
         console.log(error)
@@ -150,7 +155,7 @@ export default {
       try {
         const { data: success } = await api.put('', keep)
         if (!success) {
-          this.dispatch('snacks/notify', { message: 'Unable to update keep.' })
+          this.dispatch('snacks/notify', { message: 'Unable to update keep.', type: 'error' })
           return false
         }
 

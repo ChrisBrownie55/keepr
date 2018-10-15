@@ -7,7 +7,7 @@
     <base-input v-show='!initialLoad' class='search' name='search' placeholder='🔎 Search' :debounce='500' @input='search'></base-input>
     <base-input-skeleton class='search' v-if='initialLoad'></base-input-skeleton>
     <section class='keeps'>
-      <transition-group name='keep-list-item'>
+      <transition-group name='keep-list' :duration='{ enter: 250, leave: 250, move: 500 }'>
         <!-- TODO: Make transitions work! -->
         <keep-card v-for='keep in keeps' :key='keep.id' v-bind='keep' :inVault='!!vaultKeeps[keep.id]' class='keep-list-item' v-if='!initialLoad'>
         </keep-card>
@@ -66,16 +66,17 @@ export default {
 </script>
 
 <style lang='scss' scoped>
-.keep-list-item {
-  transition: all 1s;
-}
 .keep-list-enter,
 .keep-list-leave-to {
-  opacity: 0;
+  opacity: 0 !important;
   transform: translateY(30px);
 }
+.keep-list-enter-active,
 .keep-list-leave-active {
-  position: absolute;
+  transition: all 0.25s;
+}
+.keep-list-move {
+  transition: all 0.5s;
 }
 
 .home {

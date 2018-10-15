@@ -18,7 +18,7 @@ export default {
       state.vaults = vaults
     },
     setVaultKeeps(state, { id, keeps }) {
-      state.vaults.find(vault => vault.id === id).keeps = keeps
+      state.vaults.find(vault => vault.id === id).keeps = [...keeps]
       keeps.forEach(keep => Vue.set(state.vaultKeeps, keep.id, true))
     },
     clearVaultKeeps(state) {
@@ -29,16 +29,22 @@ export default {
       Vue.set(state.vaultKeeps, keep.id, true)
     },
     deleteVaultKeep(state, keepId) {
-      state.vaults.forEach(vault => {
-        Vue.set(vault, 'keeps', vault.keeps.filter(keep => keep.id !== keepId))
-      })
+      state.vaults = state.vaults.map(vault => ({ ...vault, keeps: vault.keeps.filter(keep => keep.id !== keepId) }))
       Vue.delete(state.vaultKeeps, keepId)
     },
     editVault(state, newVault) {
-      const vault = state.vaults.find(vault => vault.id === newVault.id)
-      vault.name = newVault.name
-      vault.description = newVault.description
+      state.vaults = state.vaults.map(vault => vault.id === newVault.id ? { ...newVault } : vault)
     },
+    editKeep(state, keep) {
+      state.vaults = state.vaults.map(
+        vault => ({
+          ...vault,
+          keeps: vault.keeps.map(
+            currentKeep => currentKeep.id === keep.id ? { ...keep } : currentKeep
+          )
+        })
+      )
+    }
   },
   actions: {
     clearVaults({ commit }) {
@@ -58,6 +64,7 @@ export default {
         commit('setVaults', vaults)
 
         vaults.forEach(vault => dispatch('getKeepsOnVault', vault.id))
+        return
       } catch (error) {
         console.log(error)
       }
@@ -148,7 +155,10 @@ export default {
 
       try {
         const { data: success } = await api.put('', vault)
-        commit('editVault', vault)
+        if (success) {
+          commit('editVault', vault)
+        }
+        return success
       } catch (error) {
         console.log(error)
       }
@@ -198,6 +208,9 @@ export default {
       } catch (error) {
         console.log(error)
       }
+    },
+    editKeep({ commit }, keep) {
+      commit('editKeep', keep)
     }
   }
 }

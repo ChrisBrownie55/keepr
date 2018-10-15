@@ -1,8 +1,9 @@
 <template>
   <div class='toggle input'>
-    <input type='checkbox' :id='id' v-bind='$attrs' v-on='listeners' />
+    <input type='checkbox' :id='id' v-bind='attrs' v-on='listeners' />
     <label :for='id'></label>
-    <p>{{ label }}</p>
+    <p v-if='label' class='label'>{{ label }}</p>
+    <p v-if='hint' class='hint'>{{ hint }}</p>
   </div>
 </template>
 
@@ -13,7 +14,8 @@ export default {
   name: 'toggle-input',
   inheritAttrs: false,
   props: {
-    label: String
+    label: String,
+    hint: String
   },
   computed: {
     listeners() {
@@ -29,6 +31,7 @@ export default {
       if (attrs.value) {
         attrs.checked = attrs.value;
       }
+      return attrs;
     }
   },
   created() {
@@ -40,6 +43,7 @@ export default {
 <style scoped lang='scss'>
 .toggle {
   display: flex;
+  flex-wrap: wrap;
   position: relative;
 }
 .toggle input[type='checkbox'] {
@@ -78,7 +82,7 @@ export default {
   transition: background-color 0.2s, left 0.2s;
   will-change: background-color, left;
 }
-.toggle input[type='checkbox'] + label + p {
+.toggle input[type='checkbox'] + label + .label {
   margin-left: 0.5rem;
 
   color: black;
@@ -96,7 +100,13 @@ export default {
   background-color: #444;
   left: calc(100% - 1.4rem);
 }
-.toggle input[type='checkbox']:checked + label + p {
+.toggle input[type='checkbox']:checked + label + .label {
   opacity: 1;
+}
+.toggle .hint {
+  margin-top: 8px;
+  width: 100%;
+
+  font-size: 0.65rem;
 }
 </style>
