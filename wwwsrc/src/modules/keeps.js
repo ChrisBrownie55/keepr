@@ -99,7 +99,7 @@ export default {
     },
     async createKeep({ commit, state, rootState }, keep) {
       if (!rootState.auth.user.id) {
-        // TODO: Notify user they need to login to do this.
+        // this.dispatch('snacks/loggedIn')
         return
       }
 
@@ -115,21 +115,25 @@ export default {
     },
     async deleteKeep({ commit, state, rootState }, id) {
       if (!rootState.auth.user.id) {
-        // TODO: Notify user they need to login to do this.
+        // this.dispatch('snacks/loggedIn')
         return
       }
 
       try {
         const { data: success } = await api.delete(`${id}`)
         if (!success) {
-          // TODO: Notify unsuccessful
+          this.dispatch('snacks/notify', { message: 'Unable to delete keep.', type: 'error' })
           return
         }
+
         const keeps = state.keeps.filter(keep => keep.id !== id)
         commit('setKeeps', keeps)
+
         const myKeeps = state.myKeeps.filter(keep => keep.id !== id)
         commit('setMyKeeps', myKeeps)
+
         this.dispatch('vaults/removeKeep', id)
+
         if (router.currentRoute.name === 'keep') {
           router.replace({ name: 'home' })
         }
@@ -139,15 +143,17 @@ export default {
     },
     async editKeep({ commit, rootState }, keep) {
       if (!rootState.auth.user.id) {
-        // TODO: Notify user they need to login to do this.
+        // this.dispatch('snacks/loggedIn')
         return
       }
 
       try {
         const { data: success } = await api.put('', keep)
         if (!success) {
+          this.dispatch('snacks/notify', { message: 'Unable to update keep.' })
           return false
         }
+
         commit('editKeep', keep)
         return true
       } catch (error) {
@@ -157,7 +163,7 @@ export default {
     },
     async getMyKeeps({ commit, rootState }) {
       if (!rootState.auth.user.id) {
-        // TODO: Notify user they need to login to do this.
+        // this.dispatch('snacks/loggedIn')
         return
       }
 
@@ -167,43 +173,10 @@ export default {
       } catch (error) {
         console.log(error)
       }
-    },
-    async addKeepToVault({ commit, rootState, dispatch }, vaultKeep) {
-      if (!rootState.auth.user.id) {
-        // TODO: Notify user they need to login to do this.
-        return
-      }
-
-      try {
-        const { data: success } = await api.post('storeInVault', vaultKeep)
-        if (!success) {
-          // TODO: Notify of failure
-        } else {
-          // TODO: Notify of success
-        }
-      } catch (error) {
-        console.log(error)
-      }
-    },
-    async removeKeepFromVault({ commit, rootState, dispatch }, keepId) {
-      if (!rootState.auth.user.id) {
-        // TODO: Notify user they need to login to do this
-        return
-      }
-
-      try {
-        const { data: success } = await api.delete(`removeFromVault/${keepId}`)
-        if (!success) {
-          // TODO: Notify of failure
-        } else {
-          // TODO: Notify of success
-        }
-      } catch (error) {
-        console.log(error)
-      }
-    },
+    }
     // async generateRandomKeeps({ rootState, dispatch }) {
     //   if (!rootState.auth.user.id) {
+    //     this.dispatch('snacks/loggedIn')
     //     return
     //   }
 

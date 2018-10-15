@@ -3,16 +3,16 @@ import Router from 'vue-router'
 
 import store from './store'
 
-import Login from './views/Login.vue'
-import Home from './views/Home.vue'
-import Dashboard from './views/Dashboard.vue'
-import NewKeep from './views/NewKeep.vue'
-import Keep from './views/Keep.vue'
-import NewVault from './views/NewVault.vue'
-import Vault from './views/Vault.vue'
-import Account from './views/Account.vue'
+const Home = () => import('./views/Home.vue')
+const Login = () => import('./views/Login.vue')
+const Dashboard = () => import('./views/Dashboard.vue')
+const NewKeep = () => import('./views/NewKeep.vue')
+const Keep = () => import('./views/Keep.vue')
+const NewVault = () => import('./views/NewVault.vue')
+const Vault = () => import('./views/Vault.vue')
+const Account = () => import('./views/Account.vue')
 
-import FourOhFour from './views/FourOhFour.vue'
+const FourOhFour = () => import('./views/FourOhFour.vue')
 
 Vue.use(Router)
 

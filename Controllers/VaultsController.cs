@@ -6,47 +6,93 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace keepr.Controllers
-{
-  [Route("api/[controller]")]
+namespace keepr.Controllers {
+  [Route ("api/[controller]")]
   [ApiController]
   [Authorize]
-  public class VaultsController : Controller
-  {
+  public class VaultsController : Controller {
     VaultsRepository _repo;
-    public VaultsController(VaultsRepository repo)
-    {
+    public VaultsController (VaultsRepository repo) {
       _repo = repo;
     }
 
     [HttpGet]
-    public IEnumerable<Vault> Get() => _repo.GetVaults(HttpContext.User.Identity.Name);
+    public IEnumerable<Vault> Get () => _repo.GetVaults (HttpContext.User.Identity.Name);
 
-    [HttpGet("{id}")]
-    public Vault GetById([FromRoute] int id)
-    {
-      return _repo.GetById(id, HttpContext.User.Identity.Name);
+    [HttpGet ("{id}")]
+    public IActionResult GetById ([FromRoute] int id) {
+      try {
+        return Ok (_repo.GetById (id, HttpContext.User.Identity.Name));
+      } catch (Exception error) {
+        return BadRequest (error.Message);
+      }
     }
 
-    [HttpGet("keeps/{vaultId}")]
-    public IEnumerable<Keep> GetKeeps([FromRoute] int vaultId) => _repo.GetKeepsFromVault(vaultId);
+    [HttpGet ("keeps/{vaultId}")]
+    public IActionResult GetKeeps ([FromRoute] int vaultId) {
+      try {
+        return Ok (_repo.GetKeepsFromVault (vaultId));
+      } catch (Exception error) {
+        return BadRequest (error.Message);
+      }
+    }
 
     [HttpPost]
-    public Vault Create([FromBody] Vault vault)
-    {
-      if (!ModelState.IsValid)
-      {
-        throw new Exception("Invalid vault");
+    public IActionResult Create ([FromBody] Vault vault) {
+      if (!ModelState.IsValid) {
+        return BadRequest ("Invalid vault");
       }
+
       vault.UserId = HttpContext.User.Identity.Name;
-      return _repo.Create(vault);
+      try {
+        return Ok (_repo.Create (vault));
+      } catch (Exception error) {
+        return BadRequest (error.Message);
+      }
     }
 
     [HttpPut]
-    public bool Update([FromBody] Vault vault) => _repo.Update(vault);
+    public IActionResult Update ([FromBody] Vault vault) {
+      try {
+        return Ok (_repo.Update (vault));
+      } catch (Exception error) {
+        return BadRequest (error.Message);
+      }
+    }
 
-    [HttpDelete("{id}")]
-    public bool Delete([FromRoute] int id) => _repo.DeleteById(id, HttpContext.User.Identity.Name);
+    [HttpDelete ("{id}")]
+    public IActionResult Delete ([FromRoute] int id) {
+      try {
+        return Ok (_repo.DeleteById (id, HttpContext.User.Identity.Name));
+      } catch (Exception error) {
+        return BadRequest (error.Message);
+      }
+    }
+
+    [HttpPost ("storeInVault")]
+    [Authorize]
+    public IActionResult storeInVault ([FromBody] VaultKeep vaultKeep) {
+      if (!ModelState.IsValid) {
+        return BadRequest ("Invalid Vault Keep relationship");
+      }
+
+      vaultKeep.UserId = HttpContext.User.Identity.Name;
+      try {
+        return Ok (_repo.StoreInVault (vaultKeep));
+      } catch (Exception error) {
+        return BadRequest (error.Message);
+      }
+    }
+
+    [HttpDelete ("removeFromVault/{keepId}")]
+    [Authorize]
+    public IActionResult removeFromVault ([FromRoute] int keepId) {
+      try {
+        return Ok (_repo.RemoveFromVault (keepId, HttpContext.User.Identity.Name));
+      } catch (Exception error) {
+        return BadRequest (error.Message);
+      }
+    }
   }
 
 }

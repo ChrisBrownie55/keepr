@@ -57,7 +57,7 @@ export default {
     }
   }
 
-  & > *:empty {
+  > *:empty {
     display: none !important;
   }
 
@@ -91,7 +91,7 @@ export default {
     transition: opacity 0.2s;
     background: none;
 
-    & > .title {
+    > .title {
       width: fit-content;
       font-weight: bold;
       text-transform: capitalize;
@@ -99,7 +99,7 @@ export default {
       color: white;
     }
 
-    & > .paragraph {
+    > .paragraph {
       font-size: 0.8rem;
       font-weight: normal;
       color: #f0f0f0;
@@ -122,7 +122,7 @@ export default {
     transition: opacity 0.2s;
     background: none;
 
-    & > *:not(:last-child) {
+    > *:not(:last-child) {
       margin-right: 0.5rem;
     }
   }

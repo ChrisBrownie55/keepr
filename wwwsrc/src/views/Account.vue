@@ -30,6 +30,7 @@ export default {
   display: flex;
   flex-direction: column;
   width: 20rem;
+  max-width: calc(100% - 1rem);
   margin: 3rem auto 0;
 
   &__button {

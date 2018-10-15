@@ -1,5 +1,5 @@
 <template>
-  <base-button class='outline-button' v-on='$listeners'>
+  <base-button class='outline-button' v-bind='$attrs' v-on='$listeners'>
     <slot></slot>
   </base-button>
 </template>
@@ -21,7 +21,7 @@ export default {
 
   &:enabled {
     &:active {
-      background-color: rgba(#0b107b, 0.15) !important;
+      background-color: rgba(#0b107b, 0.15);
     }
     &:focus {
       background-color: rgba(#0b107b, 0.075);

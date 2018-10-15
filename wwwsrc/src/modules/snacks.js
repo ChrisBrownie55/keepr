@@ -18,6 +18,9 @@ export default {
     },
     networkError({ dispatch }, error) {
       dispatch('notify', { message: error.response ? error.response.data : 'An error has occurred.', type: 'error' })
+    },
+    loggedIn({ dispatch }) {
+      dispatch('notify', { message: 'You must be logged in to do that.', type: 'warning' })
     }
   }
 }

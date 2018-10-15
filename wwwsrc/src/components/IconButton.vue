@@ -1,5 +1,5 @@
 <template>
-  <flat-button v-on='$listeners' class='icon-button'>
+  <flat-button v-bind='$attrs' v-on='$listeners' class='icon-button'>
     <base-icon v-if='icon'>{{ icon }}</base-icon>
     <div v-if='iconHTML' v-html='iconHTML' class='custom-html'></div>
     <slot></slot>

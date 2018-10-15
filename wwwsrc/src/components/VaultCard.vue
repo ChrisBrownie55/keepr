@@ -57,6 +57,7 @@ export default {
     align-items: center;
 
     width: 16rem;
+    max-width: 100%;
     height: 16rem;
 
     position: relative;

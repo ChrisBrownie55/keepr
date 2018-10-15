@@ -9,7 +9,7 @@
     <section class='keeps'>
       <transition-group name='keep-list-item'>
         <!-- TODO: Make transitions work! -->
-        <keep-card v-for='keep in keeps' :key='keep.id' v-bind='keep' :inVault='vaultKeeps.has(keep.id)' class='keep-list-item' v-if='!initialLoad'>
+        <keep-card v-for='keep in keeps' :key='keep.id' v-bind='keep' :inVault='!!vaultKeeps[keep.id]' class='keep-list-item' v-if='!initialLoad'>
         </keep-card>
         <base-card-skeleton v-if='initialLoad' v-for='n in 10' :key='n'></base-card-skeleton>
         <!-- <base-button @click.once='$store.dispatch("keeps/generateRandomKeeps")' key='uh'>Generate Random Keeps</base-button> -->

@@ -15,7 +15,7 @@
       <icon-button title='Share on twitter' :iconHTML='twitterIcon' @click.stop='share'></icon-button>
     </template>
     <transition name='fade'>
-      <form v-if='dialogOpen' @click.stop class='dialog' ref='dialog' @submit.prevent='addKeepToVault({ vaultId, keepId: id }); $refs.dialog.reset(); closeDialog()'>
+      <form v-if='dialogOpen' @click.stop class='dialog' ref='dialog' @submit.prevent='addKeepToVault({ vaultId, keep }); $refs.dialog.reset(); closeDialog()'>
         <h2 style='margin-bottom: 0.5rem;'>Store keep in vault</h2>
         <select required style='font-size: 1rem; cursor: pointer; border-radius: 4px; padding: 0.15rem 0.35rem;' v-model='vaultId' v-if='vaults.length'>
           <option selected disabled value=''>Please select a vault</option>
@@ -70,6 +70,10 @@ export default {
       type: Number,
       required: true
     },
+    keeps: {
+      type: Number,
+      required: true
+    },
     inVault: {
       type: Boolean,
       required: true
@@ -89,13 +93,12 @@ export default {
     };
   },
   methods: {
-    ...mapActions('keeps', [
+    ...mapActions('keeps', ['deleteKeep', 'shareKeep']),
+    ...mapActions('vaults', [
+      'getVaults',
       'addKeepToVault',
-      'deleteKeep',
-      'removeKeepFromVault',
-      'shareKeep'
+      'removeKeepFromVault'
     ]),
-    ...mapActions('vaults', ['getVaults']),
     openDialog(event) {
       document.body.click();
       this.dialogOpen = true;
@@ -103,6 +106,7 @@ export default {
     closeDialog(event) {
       if (!event || event.target !== this.$refs.dialog) {
         this.dialogOpen = false;
+        this.vaultId = '';
       }
     },
     async share() {
@@ -120,7 +124,20 @@ export default {
   },
   computed: {
     ...mapState('vaults', ['vaults']),
-    ...mapState('auth', ['user'])
+    ...mapState('auth', ['user']),
+    keep() {
+      return {
+        id: this.$props.id,
+        name: this.$props.name,
+        description: this.$props.description,
+        userId: this.$props.userId,
+        img: this.$props.img,
+        isPrivate: this.$props.isPrivate,
+        views: this.$props.views,
+        shares: this.$props.shares,
+        keeps: this.$props.keeps
+      };
+    }
   },
   watch: {
     dialogOpen(newState) {

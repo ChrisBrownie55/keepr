@@ -1,17 +1,44 @@
 <template>
   <div class='page'>
     <h1 class='page__title'>We couldn't find that.</h1>
+    <outline-button class='home-button' :to='{ name: "home" }'>Go home</outline-button>
     <h1 class='four-oh-four'>404</h1>
   </div>
 </template>
 
 <script>
+import OutlineButton from '@/components/OutlineButton.vue';
+
 export default {
-  name: '404'
+  name: 'four-oh-four',
+  components: {
+    OutlineButton
+  }
 };
 </script>
 
 <style scoped lang='scss'>
+.page {
+  display: flex;
+  flex-direction: column;
+}
+
+.page__title {
+  animation: fade 0.7s;
+  @keyframes fade {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+}
+
+.home-button {
+  margin: 1rem auto 0;
+}
+
 .four-oh-four {
   position: absolute;
   top: 50%;
@@ -24,11 +51,11 @@ export default {
 
   transform-origin: top left;
 
-  animation: fade-up 1.25s forwards ease-in-out;
+  animation: fade-up 1.25s forwards ease;
   @keyframes fade-up {
     0%,
     20% {
-      transform: translate(-50%, 8rem);
+      transform: translate(-50%, 5rem);
       opacity: 0;
     }
     100% {

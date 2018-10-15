@@ -286,7 +286,7 @@ h5.skeleton {
 
   width: 100%;
 
-  position: absolute;
+  position: fixed;
   bottom: 3rem;
   left: 0;
 

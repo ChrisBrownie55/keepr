@@ -1,5 +1,5 @@
 <template>
-  <outline-button v-on='$listeners' class='flat-button'>
+  <outline-button v-bind='$attrs' v-on='$listeners' class='flat-button'>
     <slot></slot>
   </outline-button>
 </template>
