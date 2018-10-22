@@ -1,6 +1,4 @@
-const baseURL = process.env.NODE_ENV === 'production'
-  ? '//keepr1.herokuapp.com/'
-  : '//localhost:5000/'
+const baseURL = window.location.origin
 
 export default {
   accountURL: baseURL + 'account/',

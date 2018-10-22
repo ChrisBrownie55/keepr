@@ -1,7 +1,7 @@
 import router from '@/router'
 import Axios from 'axios'
 
-import { keepsURL } from 'base-urls'
+import { keepsURL } from '@/base-urls'
 
 const api = Axios.create({
   baseURL: keepsURL,
