@@ -64,6 +64,8 @@ export default {
       commit('setLoading', true)
       try {
         const { data: keeps } = await api.get('')
+        console.log(keeps)
+        debugger
         await dispatch('loadImages', keeps)
         commit('setKeeps', keeps)
       } catch (error) {

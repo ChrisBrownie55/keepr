@@ -5,7 +5,7 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "deploy": "git push heroku master"
+    "deploy": "npm run build && git add wwwroot/ && git commit -m 'build' && git push heroku master"
   },
   "dependencies": {
     "axios": "^0.18.0",
