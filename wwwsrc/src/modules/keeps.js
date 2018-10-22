@@ -1,8 +1,10 @@
 import router from '@/router'
 import Axios from 'axios'
 
+import { keepsURL } from 'base-urls'
+
 const api = Axios.create({
-  baseURL: "//localhost:5000/api/keeps/",
+  baseURL: keepsURL,
   timeout: 3000,
   withCredentials: true
 })

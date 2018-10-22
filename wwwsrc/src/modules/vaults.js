@@ -2,8 +2,10 @@ import router from '@/router'
 import Axios from 'axios'
 import Vue from 'vue'
 
+import { vaultsURL } from '@/base-urls'
+
 const api = Axios.create({
-  baseURL: "//localhost:5000/api/vaults/",
+  baseURL: vaultsURL,
   timeout: 3000,
   withCredentials: true
 })
