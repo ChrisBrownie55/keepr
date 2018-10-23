@@ -1,4 +1,4 @@
-const baseURL = window.location.origin
+const baseURL = window.location.origin + '/'
 
 export default {
   accountURL: baseURL + 'account/',
